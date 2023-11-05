@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.naver.anytime.mybatis.mapper.SemesterMapper">
+
+	<insert id="insert" parameterType="semester">
+		<selectKey resultType="integer" keyProperty="semester_id"
+			order="BEFORE">
+			SELECT semester_seq.NEXTVAL FROM dual
+		</selectKey>
+
+		insert into semester
+		values
+		(#{semester_id}, #{credit_id}, #{semester_name})
+
+	</insert>
+
+
+	<select id="getSemestersByUserId" resultType="semester">
+		SELECT s.*
+		FROM member m
+		JOIN credit c ON m.user_id = c.user_id
+		JOIN semester s ON c.credit_id = s.credit_id
+		WHERE m.user_id = #{user_id}
+	</select>
+
+
+	<select id="getSemesternameByUserId" resultType="semester">
+		select semester_name
+		from semester_detail sd
+		join semester s on sd.semester_id = s.semester_id
+		join credit c on s.credit_id =c.credit_id
+		join member m on c.user_id = m.user_id
+		where m.user_id = #{user_id}
+		and credit != 0
+		group by semester_name
+		ORDER BY semester_name ASC
+	</select>
+
+
+
+
+</mapper>

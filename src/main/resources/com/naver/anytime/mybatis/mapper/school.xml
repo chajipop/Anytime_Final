@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.SchoolMapper">
+
+	<select id="getSchoolList" resultType="School">
+		SELECT name, NVL(cnt, 0)
+		AS total_count, domain
+		FROM SCHOOL
+		LEFT JOIN (
+		SELECT school_id, COUNT(*)
+		cnt
+		FROM member
+		where account_status != 0
+		GROUP BY school_id) b
+		ON
+		SCHOOL.school_id = b.school_id
+		WHERE SCHOOL.school_id != 1
+	</select>
+
+	<select id="getSchoolDomain" parameterType="String"
+		resultType="String">
+		select domain
+		from school
+		where name = #{SchoolName}
+	</select>
+
+	<select id="getSchoolName" parameterType="String"
+		resultType="String">
+		SELECT NAME
+		FROM SCHOOL
+		WHERE domain=#{schoolDomain}
+	</select>
+
+	<select id="getSchool" parameterType="String"
+		resultType="School">
+		SELECT *
+		FROM SCHOOL
+		WHERE domain=#{schoolDomain}
+	</select>
+
+	<select id="getSchoolByUserId" resultType="School">
+		SELECT s.*
+		FROM SCHOOL
+		s
+		INNER JOIN MEMBER m ON s.SCHOOL_ID = m.SCHOOL_ID
+		WHERE m.user_id
+		=#{user_id}
+	</select>
+
+	<select id="getSchoolId" parameterType="String" resultType="int">
+		SELECT SCHOOL_ID
+		FROM SCHOOL
+		WHERE DOMAIN =#{schoolDomain}
+	</select>
+
+	<select id="getSchoolNameById" parameterType="int"
+		resultType="String">
+		SELECT NAME
+		FROM SCHOOL
+		WHERE SCHOOL_ID =#{school_id}
+	</select>
+
+	<select id="isDomain" parameterType="String" resultType="int">
+		SELECT
+		COUNT(*) FROM SCHOOL
+		WHERE DOMAIN =#{schoolDomain}
+	</select>
+
+	<select id="getAddress" parameterType="String"
+		resultType="String">
+		select address
+		from school
+		where name = #{SchoolName}
+	</select>
+
+	<select id="getCredit" parameterType="String" resultType="float">
+		select credit
+		from school
+		where name = #{school_name}
+	</select>
+
+
+</mapper>

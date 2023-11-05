@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.CreditMapper">
+
+
+	<insert id="insert" parameterType="credit">
+		<selectKey resultType="integer" keyProperty="credit_id"
+			order="BEFORE">
+			SELECT credit_seq.NEXTVAL FROM dual
+		</selectKey>
+
+		INSERT INTO credit
+		VALUES
+		(#{credit_id}, #{user_id}, #{graduate_credit})
+
+	</insert>
+
+
+	<select id="getSemesterDetailsByUserId"
+		resultType="com.naver.anytime.domain.Semester_detail">
+		SELECT sd.*
+		FROM member m
+		JOIN credit c ON m.user_id = c.user_id
+		JOIN semester s ON c.credit_id = s.credit_id
+		JOIN semester_detail sd ON s.semester_id = sd.semester_id
+		WHERE m.user_id = #{user_id}
+	</select>
+
+	<select id="getSemesterDetailsBySemesterId"
+		resultType="com.naver.anytime.domain.Semester_detail">
+		SELECT s.semester_name semester_name, sd.*
+		FROM semester s
+		JOIN semester_detail sd ON s.semester_id = sd.semester_id
+		WHERE s.semester_id = #{semester_id}
+	</select>
+
+	<select id="getCreditByUserId" resultType="credit">
+		SELECT * FROM credit WHERE user_id = #{user_id}
+	</select>
+
+
+
+	<update id="updateGraduateCredit" parameterType="int">
+		UPDATE credit
+		SET graduate_credit = #{graduate_credit}
+
+	</update>
+
+
+	<select id="getTotalAcquisition" resultType="int">
+    SELECT SUM(sd.credit)
+    FROM semester_detail sd
+    JOIN semester s ON sd.semester_id = s.semester_id
+    JOIN credit c ON s.credit_id = c.credit_id
+    JOIN member m ON c.user_id = m.user_id
+    WHERE m.user_id = #{user_id}
+   </select>
+
+  
+
+
+</mapper>

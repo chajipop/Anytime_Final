@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.naver.anytime.mybatis.mapper.TimeTable_detailMapper">
+
+	<select id="getsubject" resultType="TimeTable_detail">
+		select td.subject
+		from timetable_detail td
+		join timetable t on td.timetable_id = t.timetable_id
+		where t.timetable_id = #{timetableId}
+	</select>
+	
+	<select id="getTimetableDetails" parameterType="int" resultType="TimeTable_detail">
+		select * 
+		from timetable_detail
+		where timetable_id =#{timetable_id}
+	</select>
+
+	<insert id="addSubject" parameterType="TimeTable_detail">
+		<selectKey resultType="integer" keyProperty="subject_id"
+			order="BEFORE">
+			SELECT timetable_detail_seq.NEXTVAL FROM dual
+		</selectKey>
+	        INSERT INTO TIMETABLE_DETAIL (SUBJECT_ID, timetable_id, DAY , START_TIME , END_TIME , CLASSROOM , SUBJECT , PROFESSOR)
+	        VALUES (#{subject_id}, #{timetable_id}, #{day}, #{start_time}, #{end_time}, #{classroom}, #{subject}, #{professor})
+    </insert>
+	
+	<delete id="deleteTimetableDetail" parameterType="int">
+	    DELETE FROM TIMETABLE_DETAIL WHERE TIMETABLE_ID = #{timetable_id}
+	</delete>
+	
+	<delete id="deleteSubject" parameterType="int">
+	    DELETE FROM TIMETABLE_DETAIL WHERE TIMETABLE_ID = #{timetable_id} AND SUBJECT_ID = #{subject_id}
+	</delete>
+	
+
+</mapper>
+

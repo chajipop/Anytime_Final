@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.MemberMapper">
+
+	<!-- id체크하기 위한 쿼리문 -->
+	<select id="isId" resultType="member" parameterType="String">
+		select *
+		from member where login_id = #{login_id}
+	</select>
+
+	<select id="isLoginId" resultType="member"
+		parameterType="String">
+		select *
+		from member where login_id = #{login_id}
+		and
+		account_status = 1
+	</select>
+
+	<!-- nickname 체크하기 위한 쿼리문 -->
+	<select id="isNickname" resultType="member"
+		parameterType="String">
+		select * from member where nickname = #{nickname}
+	</select>
+
+
+	<select id="getNickname" parameterType="String"
+		resultType="String">
+		SELECT NICKNAME
+		FROM MEMBER
+		WHERE LOGIN_ID = #{login_id}
+	</select>
+
+	<!-- email 체크하기 위한 쿼리문 -->
+	<select id="isEmail" resultType="member" parameterType="String">
+		select *
+		from member where email = #{email}
+	</select>
+
+	<select id="getEmail" parameterType="String" resultType="String">
+		SELECT
+		EMAIL
+		FROM MEMBER
+		WHERE LOGIN_ID = #{login_id}
+	</select>
+
+
+	<select id="getSchoolIdByName" resultType="int">
+		SELECT school_id FROM
+		school WHERE name = #{campusName}
+	</select>
+
+
+	<insert id="insert" parameterType="member">
+
+		<selectKey resultType="integer" keyProperty="user_id"
+			order="BEFORE">
+			SELECT member_seq.NEXTVAL FROM dual
+		</selectKey>
+
+		INSERT INTO member
+		VALUES
+		(#{user_id}, #{school_id}, #{login_id},
+		#{nickname},
+		#{password},
+		#{email}, #{school_check}, #{address_num},
+		#{address1},
+		#{address2}, #{phone_num}, #{board_admin},
+		#{account_status},
+		#{admission_year}, #{auth})
+	</insert>
+
+
+	<select id="findIdByEmail" resultType="String">
+		select login_id from
+		member where email = #{email}
+	</select>
+
+	<update id="updateschoolcheck" parameterType="String">
+
+		update member set
+		school_check = 1 where login_id = #{id}
+
+	</update>
+
+	<update id="updatePassword" parameterType="map">
+		UPDATE member SET
+		password = #{password}
+		WHERE login_id = #{login_id}
+	</update>
+
+	<select id="findMemberByUserId" parameterType="int"
+		resultType="member">
+		SELECT * FROM member
+		WHERE USER_ID = #{USER_ID}
+	</select>
+
+	<!-- ===========윤희============ -->
+	<select id="getSchoolDomain" parameterType="String"
+		resultType="String">
+		SELECT SCHOOL.DOMAIN
+		FROM SCHOOL
+		INNER JOIN MEMBER
+		ON
+		SCHOOL.SCHOOL_ID = MEMBER.SCHOOL_ID
+		WHERE MEMBER.LOGIN_ID = #{login_id}
+	</select>
+
+	<select id="getLoginMember" parameterType="String"
+		resultType="member">
+		SELECT *
+		FROM MEMBER
+		WHERE LOGIN_ID = #{login_id}
+	</select>
+
+	<select id="getMemberId" parameterType="String" resultType="int">
+		SELECT MEMBER_ID
+		FROM MEMBER
+		WHERE LOGIN_ID = #{login_id}
+	</select>
+
+	<select id="getSchoolId" parameterType="String" resultType="int">
+		SELECT SCHOOL_ID
+		FROM MEMBER
+		WHERE LOGIN_ID=#{login_id}
+	</select>
+
+	<select id="getSchool" parameterType="String"
+		resultType="school">
+		SELECT *
+		FROM SCHOOL INNER JOIN MEMBER
+		ON SCHOOL.SCHOOL_ID =
+		MEMBER.SCHOOL_ID
+		WHERE MEMBER.LOGIN_ID = #{login_id}
+	</select>
+
+	<select id="getUserId" parameterType="String" resultType="int">
+		SELECT
+		USER_ID
+		FROM MEMBER
+		WHERE LOGIN_ID = #{login_id}
+	</select>
+
+	<update id="updateBoardAdmin" parameterType="int">
+		UPDATE MEMBER
+		SET
+		BOARD_ADMIN = 1
+		WHERE USER_ID = #{user_id}
+	</update>
+
+	<select id="getPwd" parameterType="String" resultType="String">
+		SELECT
+		PASSWORD
+		FROM MEMBER
+		WHERE LOGIN_ID = #{login_id}
+	</select>
+
+
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER
+		SET
+		NICKNAME = #{nickname},
+		EMAIL = #{email},
+		ADDRESS_NUM =#{address_num},
+		ADDRESS1=#{address1},
+		ADDRESS2=#{address2},
+		PHONE_NUM=#{phone_num}
+		WHERE
+		LOGIN_ID = #{login_id}
+	</update>
+
+	<update id="updateStatusInactive" parameterType="String">
+		UPDATE MEMBER
+		SET
+		ACCOUNT_STATUS = 0,
+		EMAIL = '탈퇴'
+		WHERE LOGIN_ID = #{login_id}
+	</update>
+
+	<select id="getBoardAdmin" parameterType="String"
+		resultType="int">
+		SELECT BOARD_ADMIN
+		FROM MEMBER
+		WHERE LOGIN_ID = #{login_id}
+	</select>
+
+	<update id="updateStatusByContentId">
+		UPDATE MEMBER M
+		SET M.ACCOUNT_STATUS = 0
+		WHERE M.USER_ID IN (
+		<include refid="content" />
+		#{content_id}
+		)
+	</update>
+
+	<sql id="content">
+		<if test='isContent == 1'> <!-- post -->
+			SELECT P.USER_ID
+			FROM REPORT R
+			JOIN POST P ON P.POST_ID =
+			R.REPORTED_ORIGIN
+			WHERE P.POST_ID =
+		</if>
+		<if test='isContent == 2'> <!-- comment -->
+			SELECT C.USER_ID
+			FROM REPORT R
+			JOIN COMMENTS C ON C.COMMENT_ID =
+			R.REPORTED_ORIGIN
+			WHERE C.COMMENT_ID =
+		</if>
+	</sql>
+
+	<select id="isAdmin" parameterType="String" resultType="String">
+		SELECT
+		AUTH
+		FROM MEMBER
+		WHERE LOGIN_ID = #{username}
+	</select>
+
+	<select id="IsBoard_admin" parameterType="String"
+		resultType="int">
+		SELECT BOARD_ADMIN
+		FROM MEMBER
+		WHERE LOGIN_ID = #{login_id}
+	</select>
+
+	<select id="getUserIdByBoardId" parameterType="int"
+		resultType="int">
+		SELECT M.USER_ID
+		FROM MEMBER M
+		JOIN BOARD B
+		ON M.USER_ID =
+		B.USER_ID
+		WHERE B.BOARD_ID = #{board_id}
+	</select>
+
+	<!-- * * * * * * * * * * * * * * * * * * ok * * * * * * * * * * * * * * 
+		* * * * -->
+	<select id="getSchoolId2" parameterType="String"
+		resultType="Integer">
+		SELECT SCHOOL_ID
+		FROM MEMBER
+		WHERE LOGIN_ID=#{login_id}
+	</select>
+
+	<update id="updateBoardAdminDelete" parameterType="int">
+		update member
+		set
+		board_admin = 0
+		where user_id = #{user_id}
+	</update>
+
+	<update id="updateBoardAdminAdd" parameterType="int">
+		update member
+		set
+		board_admin = 1
+		where user_id = #{user_id}
+	</update>
+
+	<select id="getStatusCheck" resultType="Integer">
+		select account_status
+		from member
+		where login_id = #{login_id}
+	</select>
+
+	<select id="getNickName2" resultType="String">
+		select nickname
+		from member
+		where user_id = #{user_id}
+	</select>
+
+	<select id="getUserIdConversion" resultType="Integer">
+		select user_id
+		from
+		member
+		where user_id = ( select user_id
+		from post
+		where post_id = #{num}
+		)
+		or user_id = ( select user_id
+		from comments
+		where comment_id = #{num}
+		)
+	</select>
+
+	<select id="getStatusCheck2" resultType="Integer">
+		select account_status
+		from member
+		where user_id = #{user_id}
+	</select>
+
+	<select id="getUserSchoolCheck" resultType="int">
+		select school_check
+		from member
+		where user_id = #{user_id}
+	</select>
+	<!-- * * * * * * * * * * * * * * * * * * ok * * * * * * * * * * * * * * 
+		* * * * -->
+
+</mapper>

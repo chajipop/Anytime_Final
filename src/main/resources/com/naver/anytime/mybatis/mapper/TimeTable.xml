@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.TimeTableMapper">
+   
+	   <select id = "gettimetable" resultType="TimeTable">
+		  select *
+		  from timetable
+		  where user_id = #{user_id}
+		  and status != 0  
+		</select>
+	   
+	    <select id = "getTimetableByUserId" resultType="TimeTable">
+	     SELECT TIMETABLE_ID, USER_ID, NAME, SEMESTER, 
+	     		TO_CHAR(TIMETABLE_DATE,'MM/DD HH24:MI') as TIMETABLE_DATE, STATUS
+	     FROM TIMETABLE
+	     WHERE user_id = #{user_id}
+	     AND status != 0  
+	   </select>
+	   
+	   <update id="updateStatus" parameterType="int">
+	  	UPDATE timetable a 
+		SET a.status = 0
+		WHERE a.semester IN (
+		    SELECT semester 
+		    FROM timetable
+		    WHERE timetable_id = #{timetable_id}
+		) AND user_id = #{user_id}
+	   </update>
+	   
+	   <update id="updateTimetable" parameterType="TimeTable">
+	        UPDATE TIMETABLE 
+		    	SET NAME = #{NAME},
+		        TIMETABLE_DATE = SYSDATE,
+		        STATUS = #{STATUS}
+		    WHERE TIMETABLE_ID = #{TIMETABLE_ID}
+       </update>
+   	   
+   	   <select id="getLastTimeTable" resultType="TimeTable" parameterType="int">
+		    SELECT *
+		    FROM (
+		        SELECT *
+		        FROM TIMETABLE
+		        WHERE USER_ID = #{user_id}
+		        ORDER BY TIMETABLE_DATE DESC
+		    )
+		    WHERE ROWNUM &lt;= 1
+		</select>
+		
+		<insert id="insertNewTimetable" parameterType="map">
+		    <selectKey keyProperty="NEW_TIMETABLE_ID" order="AFTER" resultType="int">
+		        SELECT timetable_seq.CURRVAL FROM DUAL
+		    </selectKey>
+		    INSERT INTO TIMETABLE (TIMETABLE_ID, USER_ID, NAME, SEMESTER, TIMETABLE_DATE, STATUS)
+			VALUES (
+			    timetable_seq.NEXTVAL,
+			    #{user_id}, 
+			    '시간표 ' || (
+			        SELECT NVL(MAX(TO_NUMBER(REGEXP_SUBSTR(NAME,'[0-9]+'))), 0) + 1
+			        FROM TIMETABLE 
+			        WHERE USER_ID = #{user_id} AND SEMESTER = #{semester}
+			    ),
+			    #{semester},
+			    SYSDATE,
+			    0
+			)
+		</insert>
+   	   
+   	   <select id="getLastTimeTableId" resultType="int" parameterType="int">
+	      SELECT MAX(TIMETABLE_ID)
+	      FROM TIMETABLE
+	      WHERE USER_ID = #{USER_ID}
+      </select>
+      
+      <select id="getTimetableByUserIdAndSemester" resultType="TimeTable">
+	    SELECT TIMETABLE_ID, USER_ID, NAME, SEMESTER, 
+	           TO_CHAR(TIMETABLE_DATE,'MM/DD HH24:MI') as TIMETABLE_DATE, STATUS
+	            from (select *
+	    FROM TIMETABLE
+	    WHERE user_id = #{user_id} and SEMESTER = #{semester}
+	    ORDER BY STATUS DESC, timetable_date asc)
+	  </select>
+	  
+	   <select id="checkTimetable" resultType="int">
+	    SELECT COUNT(*) AS CNT
+	    FROM TIMETABLE
+	    WHERE user_id = #{user_id} and SEMESTER = #{semester}
+	  </select>
+	
+	  <insert id="createDefaultTimeTable">
+		      INSERT INTO TIMETABLE (TIMETABLE_ID, USER_ID, NAME, SEMESTER, TIMETABLE_DATE, STATUS)
+		      VALUES (timetable_seq.NEXTVAL, #{user_id}, '시간표 1', #{semester}, SYSDATE, 1)
+	  </insert> 
+	  
+	  <select id="getLastTimeTableName" resultType="String">
+	    select t.name from (
+			select * from TIMETABLE
+				where name like '시간표%'
+				and user_id = #{user_id}
+				and semester = #{semester}
+			order by name desc
+			) t
+		where rownum =1
+	  </select>
+	  
+	  <select id="getNewTimetable" parameterType="int" resultMap="TimeTableResultMap">
+	  	 SELECT TIMETABLE_ID, USER_ID, NAME, SEMESTER, 
+	           TO_CHAR(TIMETABLE_DATE,'MM/DD HH24:MI') as TIMETABLE_DATE, STATUS
+	    from 
+	  	timetable
+	  	where timetable_id = #{key}
+	  </select>
+	  
+	  <resultMap id="TimeTableResultMap" type="TimeTable">
+	    <id property="TIMETABLE_ID" column="TIMETABLE_ID"/>
+	    <result property="USER_ID" column="USER_ID"/>
+	    <result property="NAME" column="NAME"/>
+	  </resultMap>
+	  
+	  <select id="getLastInsertId" resultType="int">
+    		SELECT timetable_seq.CURRVAL FROM DUAL
+	  </select>
+	  
+    <select id="getTimeTableById" parameterType="int" resultType="TimeTable">
+      SELECT TIMETABLE_ID, USER_ID, NAME, SEMESTER, 
+	           TO_CHAR(TIMETABLE_DATE,'MM/DD HH24:MI') as TIMETABLE_DATE, STATUS 
+       FROM TIMETABLE WHERE TIMETABLE_ID = #{TIMETABLE_ID}
+  	</select> 
+  	
+	<!-- 삭제시 권한 0시간표를 1로 바꿈 -->
+   	<delete id="deleteTimetable" parameterType="map">
+	  	DELETE FROM TIMETABLE WHERE USER_ID = #{user_id} AND TIMETABLE_ID = #{timetable_id}
+	</delete>
+	
+	
+	<select id="findPrimary" parameterType="int" resultType="int">
+	    SELECT TIMETABLE_ID FROM (
+	        SELECT TIMETABLE_ID, ROW_NUMBER() OVER (ORDER BY TO_NUMBER(REGEXP_SUBSTR(NAME, '\d+')) DESC) rn
+	        FROM TIMETABLE WHERE USER_ID = #{user_id} AND STATUS = 1
+	    ) WHERE rn = 1
+	</select>
+
+
+	<select id="findNextTimetable" parameterType="int" resultType="int">
+	    SELECT TIMETABLE_ID FROM (
+        	SELECT TIMETABLE_ID, ROW_NUMBER() OVER (ORDER BY NAME ASC) rn 
+        	FROM TIMETABLE WHERE USER_ID = #{user_id} AND STATUS = 0
+    	) WHERE rn = 1
+	</select>
+
+	<update id="updateToPrimary" parameterType="int">
+	   UPDATE TIMETABLE SET STATUS = 1 WHERE TIMETABLE_ID = #{timetable_id}
+	</update>
+	
+</mapper>

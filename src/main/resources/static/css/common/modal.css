@@ -1,0 +1,349 @@
+#createBoard>input.button {
+	margin-top: 15px !important;
+	font-size: 12px !important;
+	width: 65px !important;
+}
+
+#createBoard>span {
+	border-bottom: 2px solid #7869E6;
+	color: #7869E6;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	font-family: NanumSquareEB;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+#createBoard {
+	border-radius: 12px;
+}
+
+#createBoard>div#option {
+	margin-left: 12px;
+	font-size: 13px;
+	width: 500px;
+	color: #7869E6;
+	font-weight: bold;
+}
+
+#createBoard>div>label {
+	margin-right: 86px;
+}
+
+#createBoard>p:nth-child(3) {
+	clear: both;
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+#createBoard>p:nth-child(3)>label:nth-child(2) {
+	margin-top: 31px;
+}
+
+#boarddetail {
+	margin-top: 25px;
+	display: block;
+	margin-bottom: 5px;
+	color: #737373;
+	font-size: 11px;
+	font-weight: bold;
+	margin-left: 2px;
+}
+
+#createBoard>input {
+	padding: 8px;
+	border: 1px solid #7869E6;
+	line-height: 24px;
+	color: #292929;
+	font-size: 16px !important;
+	background-color: #F9F9F9;
+	display: block;
+	margin-bottom: 5px;
+	color: #737373;
+	font-size: 11px;
+	margin-left: 1px;
+	display: block;
+	box-sizing: border-box;
+	border-radius: 12px;
+	width: 100%;
+	height: 40px;
+}
+
+#createBoard>input::placeholder {
+	font-size: 15px !important;
+	font-weight: 300 !important;
+	color: #a6a6a6 !important;
+}
+
+.custom-checkbox-label {
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.custom-checkbox {
+	display: none;
+}
+
+.custom-checkbox-image {
+	margin-top: 10px;
+	width: 75px;
+	height: 45px;
+	background: url('../../image/common/anony_not_permission.png') no-repeat;
+	background-size: contain;
+	margin-right: 5px;
+}
+
+.custom-checkbox:checked+.custom-checkbox-image {
+	margin-top: 10px;
+	width: 75px;
+	height: 45px;
+	background: url('../../image/common/anony_permission.png') no-repeat;
+	background-size: contain;
+	margin-right: 5px;
+}
+
+#createBoard>p#option {
+	flex-shrink: 0 !important;
+	line-height: 20px !important;
+	color: #a6a6a6 !important;
+	font-size: 12px !important;
+}
+
+#createBoard>div:nth-child(11) {
+	display: flex;
+}
+
+label.purpose{
+	margin-right:-8px !important;
+	
+}
+#explain {
+	margin-left: 236px !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * 게시판 모달 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+#container form.modal a.close {
+	display: block;
+	float: right;
+	width: 20px;
+	height: 20px;
+	background: transparent
+		url('../../image/common/container.modal.close.png') no-repeat center
+		center;
+	background-size: 15px 15px;
+	cursor: pointer;
+}
+
+#manageMoimForm {
+	border-radius: 12px;
+	padding: 25px 25px 20px 25px !important;
+}
+
+#transferMoimForm {
+	border-radius: 12px;
+	padding: 25px 25px 20px 25px !important;
+}
+
+#deleteCheckForm {
+	border-radius: 12px;
+	padding: 25px 25px 20px 25px !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * 관리자 모달 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+#approvalreview, #reportprocess, #reportInfo {
+	border-radius: 12px;
+	padding: 25px 25px 20px 25px !important;
+}
+
+#approvalreview>span {
+	border-bottom: 2px solid #7869E6;
+	color: #7869E6;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	font-family: NanumSquareEB;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+#approvalreview>input {
+	padding: 8px;
+	border: 1px solid #7869E6;
+	line-height: 24px;
+	color: #292929;
+	font-size: 16px !important;
+	background-color: #F9F9F9;
+	display: block;
+	margin-bottom: 5px;
+	color: #737373;
+	font-size: 11px;
+	margin-left: 1px;
+	display: block;
+	box-sizing: border-box;
+	border-radius: 12px;
+	width: 100%;
+	height: 40px;
+}
+
+#approvalreview>input.button {
+	margin-top: 15px !important;
+	font-size: 12px !important;
+	width: 65px !important;
+}
+
+#rejectreason {
+	margin-top: 25px;
+	display: block;
+	margin-bottom: 5px;
+	color: #737373;
+	font-size: 11px;
+	font-weight: bold;
+	margin-left: 2px;
+}
+
+#searchBoard {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	height: 4vh;
+	background: transparent
+		url(../../image/common/container.articles.pagination.search.png)
+		no-repeat right 10px center;
+	background-size: 15px 15px;
+	border: 1px solid #d6d6d6;
+	height: 40px;
+	width: 260px;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+#searchBoard>#search_field {
+	font-size: 14px !important;
+}
+
+#searchBoard>input[type=text] {
+	height: 40px;
+	line-height: 36px;
+	border: 0;
+	width: 130px;
+	color: #292929;
+	font-size: 14px;
+	background-color: transparent;
+	outline: none;
+}
+
+#searchButton {
+	width: 35px;
+	height: 40px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.list tbody tr:hover {
+	background-color: lightgray; /* 마우스를 올렸을 때 배경 색상 변경 */
+	cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+}
+
+#boardInfo span.info, #reportInfo span.info {
+	border-bottom: 2px solid #7869E6;
+	color: #7869E6;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	font-family: NanumSquareEB;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+#boardInfo table, #reportprocess table {
+	margin-top: 20px;
+}
+
+#boardInfo table td, #reportprocess table td, #reportInfo table td {
+	border: 0px;
+	color: #a6a6a6;
+	font-weight: bold;
+	text-align: left;
+}
+
+#boardInfo table td:first-child {
+	width: 80px;
+}
+
+#reportprocess table td:first-child {
+	width: 100px;
+}
+
+#reportprocess label {
+	font-weight: normal;
+}
+
+#boardInfo input.first {
+	width: 70px;
+}
+
+#boardInfo table td.box input, #reportprocess table td.box input {
+	height: 30px;
+	border: 1px solid #d6d6d6;
+	padding: 10px;
+	background-color: #f2f2f2;
+}
+
+#reportInfo table td.box {
+	
+}
+
+#reportInfo table td.box input {
+	height: 30px;
+	border: 1px solid #d6d6d6;
+	padding: 10px;
+	background-color: #f2f2f2;
+}
+
+#reportInfo table td.box input.right {
+	float: right;
+	text-align: left !important;
+}
+
+#reportInfo table td.box input.full {
+	width: 375px;
+}
+
+#boardInfo table td.box textarea, #reportInfo table td.box textarea {
+	border: 1px solid #d6d6d6;
+	padding: 10px;
+	background-color: #f2f2f2;
+	width: 100%;
+	height: 80px;
+	line-height: 20px;
+	box-sizing: border-box;
+	resize: none;
+}
+
+#boardInfo .switch {
+	float: right;
+	margin: 10px -9px -7px 0;
+}
+
+#reportprocess>span {
+	border-bottom: 2px solid #7869E6;
+	color: #7869E6;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	font-family: NanumSquareEB;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+#reportprocess a.button {
+	margin-top: 10px;
+	margin-right: 10px;
+}
+
+div.reportadmin td.continue {
+	color: red;
+}
+
+#reportInfo table td:first-child {
+	width: 70px;
+}

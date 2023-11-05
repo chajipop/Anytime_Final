@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.CalendarMapper">
+	
+	<select id="getCalendarList" parameterType="int" resultType="Calendar">
+		SELECT
+	    CALENDAR_ID AS id,
+	    SUBJECT AS title,
+	    START_TIME AS "start",
+	    END_TIME AS "end",
+	    CONTENT AS description,
+		ALL_TIME,
+	    color
+		FROM calendar
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<insert id="insertCalendar">
+		INSERT INTO calendar (CALENDAR_ID, USER_ID, SUBJECT, START_TIME, END_TIME, CONTENT, ALL_TIME, COLOR)
+		VALUES (CALENDAR_SEQ.nextval, #{user_id}, #{title}, #{start}, #{end}, #{description}, #{allday}, #{color})
+	</insert>
+	
+	<update id="updateCalendar">
+		UPDATE CALENDAR
+		SET 
+		    SUBJECT = #{title},
+		    START_TIME = #{start},
+		    END_TIME = #{end},
+		    CONTENT = #{description},
+		    ALL_TIME = #{allday},
+		    COLOR = #{color}
+		WHERE CALENDAR_ID = #{id}
+	</update>
+	
+	<update id="updateDropCalendar">
+		UPDATE CALENDAR
+		SET 
+		    START_TIME = #{start},
+		    END_TIME = #{end}
+		WHERE CALENDAR_ID = #{calendar_id} AND USER_ID = #{user_id}
+	</update>
+	
+	<delete id="deleteCalendar">
+		DELETE FROM CALENDAR WHERE CALENDAR_ID = #{calendar_id} AND USER_ID = #{user_id}
+	</delete>
+</mapper>

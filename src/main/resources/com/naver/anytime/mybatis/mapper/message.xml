@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.naver.anytime.mybatis.mapper.MessageMapper">
+
+	<select id="getMessageList" parameterType="int"
+		resultType="Message">
+		SELECT *
+		FROM message
+		WHERE (sender = #{user_id} OR receiver
+		= #{user_id}) AND messageall_id = #{messageall_id}
+		ORDER BY MESSAGE_ID
+		DESC
+	</select>
+
+	<select id="getMessageListROWNUM" parameterType="int"
+		resultType="Message">
+		SELECT M.*, MA.post_comment_id
+		FROM message M
+		LEFT JOIN
+		messageall MA ON M.messageall_id = MA.messageall_id
+		WHERE M.MESSAGE_ID
+		IN (
+		SELECT MAX(MESSAGE_ID)
+		FROM Message
+		WHERE SENDER = #{user_id} OR
+		RECEIVER = #{user_id}
+		GROUP BY
+		CASE
+		WHEN SENDER = #{user_id} THEN
+		RECEIVER
+		ELSE SENDER
+		END
+		)
+		ORDER BY M.MESSAGE_ID DESC
+	</select>
+
+	<insert id="insertMessage" parameterType="Message">
+		INSERT
+		INTO Message (
+		MESSAGE_ID, MESSAGEALL_ID,
+		SENDER, RECEIVER,
+		CONTENT, MESSAGE_DATE
+		)
+		VALUES (
+		message_seq.nextval, #{messageall_id},
+		#{sender_user_id},
+		#{receiver_user_id},
+		#{content}, sysdate
+		)
+
+	</insert>
+
+	<select id="getUserIdConversion2" resultType="Integer">
+		SELECT
+		CASE
+		WHEN
+		SENDER = #{sender_user_id} THEN RECEIVER
+		ELSE SENDER
+		END AS Result
+		FROM
+		MESSAGEALL
+		WHERE MESSAGEALL_ID = #{messageall_id}
+	</select>
+
+	<select id="isMessageAllIdPresent" resultType="int">
+		SELECT count(*)
+		FROM message
+		WHERE (sender = #{sender_user_id} AND receiver =
+		#{receiver_user_id})
+		OR (sender = #{receiver_user_id} AND receiver =
+		#{sender_user_id})
+	</select>
+
+	<insert id="insertMessageAllId">
+		insert into messageall(messageall_id,
+		post_comment_id, sender, receiver)
+		values(messageall_seq.nextval,
+		#{num}, #{sender_user_id}, #{receiver_user_id})
+	</insert>
+
+	<insert id="insertMessage2" parameterType="Message">
+		INSERT
+		INTO Message (
+		MESSAGE_ID, MESSAGEALL_ID,
+		SENDER, RECEIVER,
+		CONTENT, MESSAGE_DATE
+		)
+		VALUES (
+		message_seq.nextval, #{messageall_id},
+		#{sender_user_id},
+		#{receiver_user_id},
+		#{content}, sysdate
+		)
+	</insert>
+
+	<select id="isMessageAllIdPresent2" resultType="int">
+		SELECT
+		messageall_id
+		FROM messageall
+		WHERE (sender = #{sender_user_id} AND
+		receiver = #{receiver_user_id})
+		OR (sender = #{receiver_user_id} AND
+		receiver = #{sender_user_id})
+	</select>
+
+	<insert id="insertMessageAllWithSenderAndReceiver"
+		parameterType="int">
+		insert into messageall(messageall_id,
+		post_comment_id,
+		sender, receiver)
+		values(messageall_seq.nextval,
+		2, #{admin_id},
+		#{reported_user_id})
+	</insert>
+</mapper>

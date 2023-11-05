@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.PostMapper">
+
+	<select id="getDetail" parameterType="int" resultType="post">
+        select p.POST_ID, p.BOARD_ID, p.USER_ID, p.SUBJECT, p.CONTENT, 
+        	   p.POST_FILE, TO_CHAR(p.POST_DATE,'MM/DD HH24:MI') as POST_DATE,
+               p.LIKE_COUNT, p.SCRAP_COUNT, p.REPORT_COUNT, p.STATUS, 
+               b.type BOARD_TYPE ,b.anonymous BOARD_ANONYMOUS, p.account_status USER_STATUS
+        from ( 	select p.*, m.account_status 
+        		from post p 
+       			join
+        		member m
+        		on p.user_id = m.user_id )p
+        join board b
+        on p.board_id = b.board_id
+        where POST_ID = #{post_id}
+	</select>
+
+	<select id="getListCount" resultType="int">
+		select count(*) from post
+		where board_id = #{board_id} AND STATUS = 1
+	</select>
+	
+	<select id="getPostList" parameterType="map" resultType="post">
+   		SELECT * 
+    	FROM (
+      	  SELECT ROWNUM RNUM, j.*
+      	  FROM (
+        	    SELECT post.*, TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE, NVL(cnt, 0) AS comment_count
+        	    FROM post
+        	    LEFT OUTER JOIN (
+        	        SELECT post_id, COUNT(*) cnt
+        	        FROM comments
+        	        GROUP BY post_id
+       	     ) sub_C
+       	     ON post.post_id = sub_C.post_id
+				WHERE post.board_id = #{board_id}
+				AND post.status = 1
+            	ORDER BY post.post_id DESC
+        	) j 
+        	WHERE ROWNUM &lt;= #{end} 
+    	) 
+    	WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+	
+	<select id="getUserNickname" parameterType="int" resultType="post">
+    	SELECT user_id, nickname
+    	FROM member
+	</select>
+	
+	<insert id="insertPost" parameterType="com.naver.anytime.domain.Post" useGeneratedKeys="true" keyProperty="POST_ID" keyColumn="POST_ID">
+	     INSERT INTO POST (POST_ID, BOARD_ID, USER_ID, SUBJECT, CONTENT, POST_FILE,
+	                        POST_DATE, LIKE_COUNT, SCRAP_COUNT, REPORT_COUNT,
+	                        STATUS)
+	     VALUES (post_comment_seq.nextval, #{BOARD_ID}, #{USER_ID}, #{SUBJECT}, #{CONTENT}, #{POST_FILE},
+	              SYSDATE, 0, 0, 0, 1)
+  	</insert>
+  	
+  	<update id="updatePost" parameterType="com.naver.anytime.domain.Post">
+	    UPDATE POST 
+	    SET 
+		    SUBJECT = #{SUBJECT},
+		    CONTENT = #{CONTENT},
+		    POST_FILE = #{POST_FILE}
+	    WHERE POST_ID = #{POST_ID} 
+	</update>
+
+   <select id="getPostLikes" parameterType="int" resultType="int">
+      SELECT COUNT(*) FROM POST_LIKE WHERE POST_ID = #{post_id}
+  </select>
+  
+  	<update id="updatePostFile" parameterType="map">
+   		UPDATE POST SET POST_FILE = #{post_file} WHERE POST_ID = #{post_id}
+	</update>
+	
+	<!-- 일반 검색 리스트 값 출력-->
+	<select id="getSearchPostList" parameterType="map" resultType="post">
+		SELECT * 
+		FROM (
+		    SELECT ROWNUM RNUM, j.* 
+		    FROM (
+		        SELECT post.*, TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE, NVL(cnt, 0) AS COMMENT_COUNT 
+		        FROM post 
+		        LEFT OUTER JOIN (
+		            SELECT post_id, COUNT(*) cnt 
+		            FROM comments 
+		            GROUP BY post_id
+		        ) sub_C 
+		        ON post.post_id = sub_C.post_id 
+		        	WHERE post.board_id = #{board_id}
+		        	AND post.status = 1
+		        	<include refid="search"/>
+				ORDER BY post.post_id DESC) j
+			         WHERE ROWNUM &lt;= #{end}
+				)
+			WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+
+	<!-- 일반 검색 필터링 -->	
+	<sql id="search">
+		<if test='search_field == 0'>
+    		AND (post.subject LIKE '%' || #{search_word} || '%' OR post.content LIKE '%' || #{search_word} || '%')
+		</if>
+		<if test='search_field == 1'>
+		    AND post.subject LIKE '%' || #{search_word} || '%'
+		</if>
+		<if test='search_field == 2'>
+		    AND post.content LIKE '%' || #{search_word} || '%'
+		</if>
+	</sql>
+
+	<!-- 일반 검색 리스트 수 -->	
+	<select id="getSearchListCount" resultType="int">
+		select count(*)
+		from post
+		where board_id = #{board_id} AND status = 1
+		<include refid="search2"/>
+	</select>
+
+	<!-- 일반 검색 필터링2 -->		
+	<sql id="search2">
+		<if test='search_field == 0'>
+    		AND (subject LIKE '%' || #{search_word} || '%' OR content LIKE '%' || #{search_word} || '%')
+		</if>
+		<if test='search_field == 1'>
+		    AND subject LIKE '%' || #{search_word} || '%'
+		</if>
+		<if test='search_field == 2'>
+		    AND content LIKE '%' || #{search_word} || '%'
+		</if>
+	</sql>
+	
+	<!-- 전체 검색 리스트 값 출력 -->		
+	<select id="getAllSearchPostList" parameterType="map" resultType="post">
+   		SELECT *
+			FROM (
+			    SELECT ROWNUM RNUM, j.*, b.name AS boardname
+			    FROM (
+			        SELECT post.*, TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE, NVL(cnt, 0) AS comment_count
+			        FROM post
+			        LEFT OUTER JOIN (
+			            SELECT post_id, COUNT(*) cnt
+			            FROM comments
+			            GROUP BY post_id
+			        ) sub_C ON post.post_id = sub_C.post_id
+			        WHERE post.board_id IN (
+			            SELECT board_id
+			            FROM board
+			            WHERE school_id = #{school_id} and status = 1
+			        )
+			        AND (subject LIKE '%' || #{search_word} || '%' OR content LIKE '%' || #{search_word} || '%')
+			        AND post.status = 1
+			        ORDER BY post.post_id DESC
+			    ) j
+			    LEFT OUTER JOIN board b ON j.board_id = b.board_id
+			    WHERE ROWNUM &lt;= #{end}
+			)
+			WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+
+	<!-- 전체 검색 리스트 수 -->		
+	<select id="getAllSearchListCount" resultType="int">
+		SELECT COUNT(*) AS post_count
+			FROM post
+			WHERE board_id IN (
+			    SELECT board_id
+			    FROM board
+			    WHERE school_id = #{school_id}
+			)
+			AND (subject LIKE '%' || #{search_word} || '%' OR content LIKE '%' || #{search_word} || '%')
+			AND status = 1
+	</select>
+
+	<select id="getPostListByBoard" parameterType="int" resultType="post">
+		SELECT * 
+		FROM (	
+				SELECT B.BOARD_ID, B.NAME AS BOARDNAME, 
+				P.SUBJECT, TO_CHAR(P.POST_DATE, 'MM-DD HH24:MI') POST_DATE, P.POST_ID
+				FROM BOARD B LEFT JOIN POST P 
+				ON B.BOARD_ID = P.BOARD_ID				
+				WHERE B.BOARD_ID = #{BOARD_ID}					
+				AND B.TYPE = 1 
+				AND B.STATUS = 1		
+				AND P.STATUS =1							
+				ORDER BY P.POST_DATE DESC										
+	 		 ) 																	
+		WHERE ROWNUM &lt;= 4
+	</select>
+    
+    <update id="updatePostStatus" parameterType="int">
+		UPDATE POST
+		SET STATUS = 0
+		WHERE POST_ID =${post_id}
+	</update>
+
+	<!-- 사용X -->
+	<select id="getMainPostList" parameterType="int" resultType="post">
+    	SELECT *
+		FROM (
+		    	SELECT P.*,B.TYPE AS BOARD_TYPE,
+		        ROW_NUMBER() OVER (PARTITION BY B.BOARD_ID ORDER BY P.POST_DATE DESC) AS rn
+		    	FROM BOARD B
+		  		LEFT JOIN POST P ON B.BOARD_ID = P.BOARD_ID
+		    	WHERE B.SCHOOL_ID = #{school_id}
+		        AND B.BOARD_ID IN (
+		            				SELECT BOARD_ID
+		            				FROM BOARD
+						            WHERE TYPE = 1
+						            AND SCHOOL_ID = #{school_id}
+						            AND STATUS = 1
+						            AND NAME != '공지사항'
+		        					)
+		        AND P.STATUS = 1
+			 )
+		WHERE rn &lt;= 4;
+	</select>
+	
+	<select id="getPostTotalListCount" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM POST
+		WHERE BOARD_ID = #{board_id}
+		AND STATUS = 1
+		<include refid="search2"/>
+	</select>
+	
+	<select id="getPostTotalList" parameterType="map" resultType="post">
+		SELECT * FROM (
+		    SELECT ROWNUM RNUM, j.* 
+		    FROM (SELECT post.* 
+                FROM post 
+		        	WHERE post.board_id = #{board_id}
+		        	AND post.status = 1
+		        	<include refid="search"/>
+				ORDER BY post.post_id DESC) j
+			         WHERE ROWNUM &lt;= #{end}
+				)
+			WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+
+	<select id="getPost" parameterType="int" resultType="int" >
+		select count(*) from post
+		where post_id = #{content_id}
+	</select>
+	
+	<select id="getPostReportCount" resultType="int">
+		select report_count 
+		from post
+		where post_id = #{post_id}
+	</select>
+	
+	<!-- 내가 스크랩한 글 리스트 -->
+	<select id="getMyScrapList" parameterType="map" resultType="post">
+   		SELECT *
+		FROM (
+		    SELECT ROWNUM RNUM, j.*
+		    FROM (
+		        SELECT post.*, TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE, NVL(cnt, 0) AS COMMENT_COUNT, board.NAME AS BOARDNAME, member.NICKNAME AS NICKNAME
+		        FROM post
+		        LEFT OUTER JOIN (
+		            SELECT post_id, COUNT(*) cnt
+		            FROM comments
+		            GROUP BY post_id
+		        ) sub_C ON post.post_id = sub_C.post_id
+		        LEFT OUTER JOIN scrap ON post.post_id = scrap.post_id
+		        LEFT OUTER JOIN board ON post.board_id = board.board_id
+		        LEFT OUTER JOIN member ON post.USER_ID = member.user_id
+		        WHERE post.status = 1
+		        AND scrap.user_id = #{user_id}
+		        ORDER BY scrap.scrap_id DESC
+		    ) j 
+		    WHERE ROWNUM &lt;= #{end} 
+		) 
+		WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+	
+	<!-- 내가 쓴 글 카운트 -->
+	<select id="getMyArticlesListCount" resultType="int">
+		select count(*) 
+		from post
+		where user_id = #{user_id} AND STATUS = 1
+	</select>
+	
+	<!-- 내가 댓글 단 글 카운트 -->
+	<select id="getMyCommentArticlesListCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM post
+		WHERE post_id IN (SELECT post_id
+		                  FROM comments
+		                  WHERE user_id = #{user_id} and status = 1
+		)
+	</select>
+	
+	<!-- 내가 쓴 글 리스트 -->
+	<select id="getMyArticlesList" parameterType="map" resultType="post">
+   		SELECT * 
+    	FROM (
+      	  SELECT ROWNUM RNUM, j.*
+      	  FROM (
+        	    SELECT post.*, TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE, NVL(cnt, 0) AS COMMENT_COUNT, board.NAME AS BOARDNAME, 
+                CASE
+                    WHEN board.anonymous = 1 THEN '익명'
+                    ELSE member.NICKNAME
+                END AS NICKNAME
+        	    FROM post
+        	    LEFT OUTER JOIN (
+        	        SELECT post_id, COUNT(*) cnt
+        	        FROM comments
+        	        GROUP BY post_id
+       	     ) sub_C
+       	     ON post.post_id = sub_C.post_id
+             LEFT OUTER JOIN board ON post.board_id = board.board_id
+             LEFT OUTER JOIN member ON post.USER_ID = member.user_id
+				WHERE post.user_id = #{user_id} AND post.status = 1
+            	ORDER BY post.post_id DESC
+        	) j 
+		    WHERE ROWNUM &lt;= #{end} 
+		) 
+		WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+	
+	<select id="getMyCommentArticlesList" parameterType="map" resultType="post">
+		SELECT *
+		FROM (
+			    SELECT ROWNUM RNUM, j.*
+			    FROM (
+			        SELECT 
+			            post.*, 
+			            TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE,
+			            NVL(cnt, 0) AS COMMENT_COUNT, 
+			            board.NAME AS BOARDNAME, 
+			            CASE
+			                WHEN board.anonymous = 1 THEN '익명'
+			                ELSE member.NICKNAME
+			            END AS NICKNAME
+			        FROM post
+			        LEFT OUTER JOIN (
+			            SELECT post_id, COUNT(*) cnt
+			            FROM comments
+			            GROUP BY post_id
+			        ) sub_C ON post.post_id = sub_C.post_id
+			        LEFT OUTER JOIN board ON post.board_id = board.board_id
+			        LEFT OUTER JOIN member ON post.USER_ID = member.user_id
+			        WHERE post.status = 1
+			        AND post.post_id IN (
+			            SELECT post_id
+			            FROM comments
+			            WHERE user_id = #{user_id} and status = 1
+			        )
+			        ORDER BY post.post_id DESC
+			    ) j 
+			    WHERE ROWNUM &lt;= #{end} 
+			) 
+			WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+	
+	<select id="getHotPostListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM post p
+		JOIN board b ON b.board_id = p.board_id
+		WHERE b.school_id = #{school_id} AND p.like_count &gt;= 10 and p.status = 1
+	</select>
+	
+	<select id="getBestPostListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM post p
+		JOIN board b ON b.board_id = p.board_id
+		WHERE b.school_id = #{school_id} AND p.like_count &gt;= 100 and p.status = 1
+	</select>
+	
+	<select id="getHotPostList" parameterType="map" resultType="post">
+	    SELECT *
+		FROM (
+			    SELECT ROWNUM RNUM, j.*
+			    FROM (
+			        SELECT 
+			            post.*, 
+			            TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE,
+			            NVL(cnt, 0) AS COMMENT_COUNT, 
+			            board.NAME AS BOARDNAME, 
+			            CASE
+			                WHEN board.anonymous = 1 THEN '익명'
+			                ELSE member.NICKNAME
+			            END AS NICKNAME
+			        FROM post
+			        LEFT OUTER JOIN (
+			            SELECT post_id, COUNT(*) cnt
+			            FROM comments
+			            GROUP BY post_id
+			        ) sub_C ON post.post_id = sub_C.post_id
+			        LEFT OUTER JOIN board ON post.board_id = board.board_id
+			        LEFT OUTER JOIN member ON post.USER_ID = member.user_id
+			        WHERE post.status = 1 
+			        and post.like_count &gt;= 10
+					and board.school_id = #{school_id}
+			        ORDER BY post.post_id DESC
+			    ) j 
+			    WHERE ROWNUM &lt;= #{end} 
+			) 
+			WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+	
+	<select id="getBestPostList" parameterType="map" resultType="post">
+	    SELECT *
+		FROM (
+			    SELECT ROWNUM RNUM, j.*
+			    FROM (
+			        SELECT 
+			            post.*, 
+			            TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE,
+			            NVL(cnt, 0) AS COMMENT_COUNT, 
+			            board.NAME AS BOARDNAME, 
+			            CASE
+			                WHEN board.anonymous = 1 THEN '익명'
+			                ELSE member.NICKNAME
+			            END AS NICKNAME
+			        FROM post
+			        LEFT OUTER JOIN (
+			            SELECT post_id, COUNT(*) cnt
+			            FROM comments
+			            GROUP BY post_id
+			        ) sub_C ON post.post_id = sub_C.post_id
+			        LEFT OUTER JOIN board ON post.board_id = board.board_id
+			        LEFT OUTER JOIN member ON post.USER_ID = member.user_id
+			        WHERE post.status = 1 
+			        and post.like_count &gt;= 100
+			        and board.school_id = #{school_id}
+			        ORDER BY post.post_id DESC
+			    ) j 
+			    WHERE ROWNUM &lt;= #{end} 
+			) 
+			WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+	
+	<select id="getHotPostSampleList" resultType="post">
+	    SELECT *
+		FROM (
+			    SELECT ROWNUM RNUM, j.*
+			    FROM (
+			        SELECT 
+			            post.*, 
+			            TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE,
+			            NVL(cnt, 0) AS COMMENT_COUNT, 
+			            board.NAME AS BOARDNAME, 
+			            CASE
+			                WHEN board.anonymous = 1 THEN '익명'
+			                ELSE member.NICKNAME
+			            END AS NICKNAME
+			        FROM post
+			        LEFT OUTER JOIN (
+			            SELECT post_id, COUNT(*) cnt
+			            FROM comments
+			            GROUP BY post_id
+			        ) sub_C ON post.post_id = sub_C.post_id
+			        LEFT OUTER JOIN board ON post.board_id = board.board_id
+			        LEFT OUTER JOIN member ON post.USER_ID = member.user_id
+			        WHERE post.status = 1 
+			        and post.like_count &gt;= 10
+			        and board.school_id = #{school_id}
+			        ORDER BY post.post_id DESC
+			    ) j 
+			    WHERE ROWNUM &lt;= 4 
+			) 
+	</select>
+	
+	<select id="getBestPostSampleList" resultType="post">
+	    SELECT *
+		FROM (
+			    SELECT ROWNUM RNUM, j.*
+			    FROM (
+			        SELECT 
+			            post.*, 
+			            TO_CHAR(post_date, 'MM-DD HH:MI') AS FORMATTED_DATE,
+			            NVL(cnt, 0) AS COMMENT_COUNT, 
+			            board.NAME AS BOARDNAME, 
+			            CASE
+			                WHEN board.anonymous = 1 THEN '익명'
+			                ELSE member.NICKNAME
+			            END AS NICKNAME
+			        FROM post
+			        LEFT OUTER JOIN (
+			            SELECT post_id, COUNT(*) cnt
+			            FROM comments
+			            GROUP BY post_id
+			        ) sub_C ON post.post_id = sub_C.post_id
+			        LEFT OUTER JOIN board ON post.board_id = board.board_id
+			        LEFT OUTER JOIN member ON post.USER_ID = member.user_id
+			        WHERE post.status = 1 
+			        and post.like_count &gt;= 100
+			        and board.school_id = #{school_id}
+			        ORDER BY post.post_id DESC
+			    ) j 
+			    WHERE ROWNUM &lt;= 4 
+			) 
+	</select>
+	
+	<update id="updateScrapUpCount">
+		UPDATE post
+		SET scrap_count = scrap_count + 1
+		WHERE post_id = #{post_id}
+	</update>
+	
+	<update id="updateScrapDownCount">
+		UPDATE post
+		SET scrap_count = scrap_count - 1
+		WHERE post_id = #{post_id}
+	</update>
+	
+</mapper>

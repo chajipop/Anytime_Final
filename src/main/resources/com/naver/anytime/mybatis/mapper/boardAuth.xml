@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.naver.anytime.mybatis.mapper.BoardAuthMapper">
+	<insert id="insertBoardAuth">
+	<selectKey>
+	
+	</selectKey>
+		INSERT INTO BOARD_AUTH (BOARD_AUTH_ID, USER_ID,
+		BOARD_ID)
+		VALUES (BOARD_AUTH_SEQ.NEXTVAL, #{user_id}, #{board_id})
+	</insert>
+	
+	<delete id="deleteBoardAuth">
+		delete from board_auth
+		where board_id = ${board_id}
+	</delete>
+	
+	<update id="updateBoardAuth">
+		update board_auth
+		set user_id = #{tf_user_id_num}
+		where user_id = #{am_user_id_num} and board_id = #{board_id}
+	</update>
+	
+</mapper>

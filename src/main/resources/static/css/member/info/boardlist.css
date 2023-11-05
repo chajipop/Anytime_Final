@@ -1,0 +1,199 @@
+#boardSection>a.createboard {
+	color: #fff;	
+	font-weight: bold;
+	background-color: #7869e6;
+	display: block;
+	line-height: 25px;
+	border-radius: 12px;
+	font-size: 16px;
+	text-align: center;
+	cursor: pointer;
+}
+
+element.style {
+	margin-left: -200px;
+	margin-top: -135.5px;
+	display: none;
+}
+
+p.noboard {
+	display: flex;
+	padding: 13px 24px;
+	justify-content: space-between;
+	line-height: 24px;
+	word-wrap: break-word;
+	color: #292929;
+	font-size: 16px;
+}
+
+form.modal {
+	padding: 25px 25px 15px 25px;
+	width: 356px;
+	position: fixed;
+	z-index: 1000;
+	left: 50%;
+	top: 50%;
+	background-color: #fff;
+}
+
+form.modal a.close {
+	display: block;
+	float: right;
+	width: 20px;
+	height: 20px;
+	background: transparent
+		url(../../../image/common/container.modal.close.png) no-repeat center
+		center;
+	background-size: 15px 15px;
+	cursor: pointer;
+}
+
+form.modal .button {
+	display: block !important;
+	float: right !important;
+	margin-left: 5px !important;
+	padding: 0 12px !important;
+	height: 30px !important;
+	line-height: 30px !important;
+	border: 0 !important;
+	border-radius: 18px !important;
+	color: #fff !important;
+	font-size: 12px !important;
+	font-weight: bold !important;
+	background-color: #7869E6 !important;
+	cursor: pointer !important;
+}
+
+#boardSection>a>p.reject {
+	color: rgb(229, 71, 135);
+}
+
+#boardSection>a>p {
+	color: #7869e6;
+}
+
+#boardSection > hr:last-of-type {
+    display: none;
+}
+
+body.appwebview div.container {
+	padding-top: 0
+}
+
+@media only screen and (min-width: 780px) {
+	div.container {
+		padding-top: 80px
+	}
+}
+
+@media only screen and (max-width: 779px) {
+	div.container {
+		padding-top: 56px
+	}
+}
+
+div.container section {
+	padding: 12px 0;
+	box-sizing: border-box;
+	border: 1px solid #c1c1c1c1;
+	border-radius: 12px
+}
+
+@media {
+	div.container section {
+		border: 1px solid #c1c1c1;
+	}
+}
+
+@media only screen and (min-width: 780px) {
+	div.container section {
+		margin: 24px auto 25px auto;
+		width: 480px;
+		flex-direction: column;
+		display: flex;
+		background: #ffffff;
+		padding: 24px;
+	}
+}
+
+@media only screen and (max-width: 779px) {
+	div.container section {
+		margin: 0 8px
+	}
+}
+
+div.container section.empty {
+	padding: 72px 0
+}
+
+div.container section.empty p {
+	line-height: 26px;
+	color: #A6A6A6;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center
+}
+
+@media {
+	div.container section.empty p {
+		color: #6E6E6E
+	}
+}
+
+body>div>div.container>section>a>p {
+	display: flex;
+	justify-content: flex-end;
+}
+
+div.container section h1 {
+	color: #292929;
+	font-weight: bold
+}
+
+@media {
+	div.container section h1 {
+		color: #111111
+	}
+}
+
+@media only screen and (min-width: 780px) {
+	div.container section h1 {
+		/*padding: 13px 24px;*/
+		line-height: 30px;
+		font-size: 22px
+	}
+}
+
+@media only screen and (max-width: 779px) {
+	div.container section h1 {
+		display: none
+	}
+}
+
+div.container section a {
+	display: block;
+	line-height: 24px;
+	word-wrap: break-word;
+	color: #292929;
+	font-size: 16px
+}
+
+@media {
+	div.container section a {
+		color: #737373
+	}
+}
+
+@media only screen and (min-width: 780px) {
+	div.container section a {
+		display: flex;
+		padding: 13px 24px;
+		justify-content: space-between;
+	}
+}
+
+@media only screen and (max-width: 779px) {
+	div.container section a {
+		padding: 12px 16px
+	}
+}

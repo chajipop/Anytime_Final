@@ -1,0 +1,552 @@
+html {
+	position: relative;
+	min-height: 100%;
+	display: block;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	height: 100%;
+}
+
+#wrapper {
+	display: flex;
+}
+
+.empty {
+	padding: 180px;
+	color: #a2a2a2;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.left_admin .card {
+	background-color: #eeeef7;
+	width: 14rem;
+	min-height: 100vh;
+	flex-direction: column;
+	align-items: center;
+	display: flex !important;
+	padding: 110px 15px 15px 15px;
+	height: 100%;
+}
+
+.card>.admin {
+	padding: 15px;
+	border: 1px solid #d6d6d6;
+	background-color: #f9f9f9;
+	width: 175px;
+	height: 300px;
+	align-items: center;
+}
+
+form.admin>img {
+	display: block;
+	margin: 20px auto;
+	width: 60px;
+	height: 60px;
+	border-radius: 6px;
+}
+
+p.nickname {
+	margin-top: 30px;
+	margin-bottom: 10px;
+	line-height: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #393939;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+p.userid {
+	line-height: 15px;
+	color: #a6a6a6;
+	font-size: 12px;
+	text-align: center;
+}
+
+p.email {
+	margin-top: 28px;
+	line-height: 15px;
+	color: #a6a6a6;
+	font-size: 12px;
+	text-align: center;
+	line-height: 15px;
+}
+
+.admin>ul.buttons {
+	margin-top: 30px;
+}
+
+.admin>ul.buttons>li {
+	float: left;
+	width: 50%;
+	list-style: none;
+}
+
+.admin>ul.buttons>li.info>a {
+	background-color: #CFD8FF;
+	border: 1px solid #7868E6;
+	color: #7868E6;
+}
+
+.admin>ul.buttons>li.logout>a {
+	background-color: #7868E6;
+	border: 1px solid #7868E6;
+	color: #ffffff;
+}
+
+.admin>ul.buttons>li>a {
+	display: block;
+	margin-right: 5px;
+	border-radius: 10px;
+	line-height: 25px;
+	font-size: 13px;
+	text-align: center;
+}
+
+.admin hr {
+	clear: both;
+	width: 100%;
+	height: 0;
+	border: 0;
+}
+
+.email>img {
+	width: 20px;
+	height: 20px;
+}
+
+div.boardadmin, div.reportadmin {
+	margin: 100px auto 0 105px;
+	width: 75%;
+}
+
+div.reportadmin div.menu>ol {
+	display: inline-block;
+}
+
+div.reportadmin div.menu>div.order {
+	display: inline-block;
+	float: right;
+	margin-right: 185px;
+	margin-top: 15px;
+}
+
+div.menu ol>li.menu {
+	margin-right: 16px;
+}
+
+div.menu ol>li.search {
+	float: right;
+	margin-right: 190px;
+}
+
+div.menu ol>li {
+	cursor: pointer;
+	display: inline-block;
+	box-sizing: border-box;
+}
+
+div.menu ol li a {
+	display: block;
+	margin: 16px 0;
+	color: #a6a6a6;
+	font-size: 14px;
+	line-height: 22px;
+	border-bottom: 2px solid rgba(0, 0, 0, 0);
+}
+
+div.menu ol li #searchBoard {
+	
+}
+
+div.menu ol li a.active {
+	color: #7868E6;
+}
+
+div.section {
+	margin-top: -25px;
+	margin-right: 176px;
+}
+
+table.request, table.list {
+	width: 100%;
+	margin-top: 24px;
+	border: 2px solid #ededed;
+	border-spacing: 0;
+	border-radius: 12px;
+}
+
+table thead {
+	width: 100%;
+}
+
+table tbody {
+	width: 100%;
+}
+
+table tr {
+	height: 40px;
+}
+
+table tr td {
+	border-top: 1px solid #ededed;
+	text-align: center;
+	font-size: 13px;
+}
+
+table tr th.toggle, table tr th.rownum {
+	text-align: center;
+	width: 5%;
+}
+
+table tr th.school, table.request tbody td {
+	text-align: center;
+	width: 8%;
+}
+
+table tr th {
+	text-align: center;
+}
+
+table tr th.type {
+	width: 10%;
+}
+
+table tr th.name {
+	width: 15%;
+}
+
+table tr th.purpose {
+	width: 30%;
+}
+
+table tr th.manager {
+	width: 10%;
+}
+
+table tr th.approval {
+	width: 15%;
+}
+
+table tr th {
+	color: #666;
+	font-size: 14px;
+	font-weight: normal;
+}
+/* 스위치 스타일 */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+	vertical-align: middle;
+	margin-right: -30px;
+}
+
+.list .switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+	display: none;
+}
+
+/* The slider */
+.slider {
+	margin-top: 5px;
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 20px;
+	width: 40px;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+	background-color: #ccc;
+	position: absolute;
+	background-color: #ccc;
+	position: absolute;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 13px;
+	width: 13px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked+.slider {
+	background-color: #7868E6;
+	margin-top: 10px;
+}
+
+input:focus+.slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+	margin-top: 10px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+/* ========================== */
+td.complete p {
+	color: #35AA86;
+}
+
+td.pending p {
+	margin-left: 30px;
+}
+
+td.reject p {
+	color: #DA4E58;
+}
+
+.approval img {
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-bottom: 2px;
+}
+
+.menu a.active {
+	-webkit-text-stroke: 0.4px #7868E6;
+}
+
+.menu a {
+	-webkit-text-stroke: 0.2px #a6a6a6;
+}
+
+#boardInfo {
+	border-radius: 12px;
+	padding: 25px 25px 20px 25px !important;
+}
+
+div.order label, div.report_content label, div.report_member label {
+	margin-right: 20px;
+}
+
+/*신고 관리 페이지*/
+table.request a.article {
+	height: 165px;
+	display: block;
+	padding: 20px 25px;
+	background-color: #F4F4F4;
+}
+
+table.request img.picture {
+	width: 25px;
+	height: 25px;
+	border-radius: 6px;
+	float: left;
+}
+
+table.request a.process {
+	background-color: #7868E6;
+	border: 1px solid #7868E6;
+	color: #ffffff;
+}
+
+table.request button.process {
+	margin-right: 15px;
+	display: inline-block;
+	float: right;
+	width: 70px;
+	height: 25px;
+	border-radius: 10px;
+	line-height: 25px;
+	font-size: 13px;
+	text-align: center;
+	background-color: #7868E6;
+	border: 1px solid #7868E6;
+	color: #ffffff;
+	line-height: 25px;
+	font-size: 13px;
+	text-align: center;
+}
+
+table.request img.process {
+	width: 20px;
+	height: 20px;
+	margin-bottom: 2px;
+}
+
+table.request a.article div.profile, table.request a.article h2, table.request a.article p
+	{
+	float: left;
+}
+
+table.request a.article h2.medium, table.request a.article p.small {
+	clear: both;
+}
+
+table.request a.article ul.status {
+	float: right;
+}
+
+table.request a.article ul.status li {
+	float: left;
+	margin-left: 8px;
+	padding: 0 2px;
+	height: 20px;
+	line-height: 20px;
+	color: #a6a6a6 !important;
+	font-size: 12px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 11px 11px;
+	cursor: pointer;
+	margin-bottom: 10px;
+}
+
+table.request a.article ul.status li.attach {
+	padding-left: 15px;
+	color: #737373;
+	background-image: url(/anytime/resources/image/post/attach.png);
+}
+
+table.request a.article ul.status li.vote {
+	padding-left: 15px;
+	color: #c62917;
+	background-image: url(/anytime/resources/image/post/vote.png);
+}
+
+table.request a.article ul.status li.comment {
+	padding-left: 15px;
+	color: #0ca5af;
+	background-image:
+		url(/anytime/resources/image/post/postDetail.comment.png);
+}
+
+table.request button.process:hover {
+	background-color: #685eac;
+	border-color: #685eac;
+	cursor: pointer;
+}
+
+table.request a.article:hover {
+	background-color: lightgray; /* 마우스를 올렸을 때 배경 색상 변경 */
+	cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+}
+
+table.request a.article div.profile {
+	line-height: 2;
+	margin-bottom: 10px;
+}
+
+table.request a.article div.profile span:first-child {
+	color: #666;
+	margin-left: 10px;
+	font-size: 13px;
+}
+
+table.request a.article div.profile span {
+	color: #a6a6a6;
+	margin-left: 5px;
+	font-size: 13px;
+}
+
+table.request a.article h2.medium {
+	font-size: 14px;
+	margin: 5px 0 5px 2px;
+}
+
+table.request a.article p.small {
+	font-size: 13px;
+	margin-left: 4px;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+table.request a.article p.last {
+	margin: 10px 0 10px 7px;
+	color: #a6a6a6;
+	clear: both;
+	margin-left: 7px;
+}
+
+form.notice {
+	margin-top: 20px;
+	margin-bottom: -15px !important;
+}
+
+article.list a {
+	border: 1px solid #e3e3e3 !important;
+}
+
+a.page-link.last {
+	border: 1px solid #fff0;
+	background-image:
+		url(/anytime/resources/image/post/container.articles.pagination.next.png);
+	background-position: left 52px center;
+	margin-top: 5px;
+	margin-left: 5px;
+	padding: 10px 25px 10px 15px;
+	height: 35px;
+	line-height: 35px;
+	border: 1px solid #7869e6;
+	border-radius: 5px;
+	color: #7869e6;
+	font-size: 14px;
+	font-weight: bold;
+	background-repeat: no-repeat;
+	background-size: 10px 15px;
+	cursor: pointer;
+}
+	
+a.page-link.first {
+	border: 1px solid #fff0;
+	background-image:
+		url(/anytime/resources/image/post/container.articles.pagination.before.png);
+	background-position: right 1px center;
+	margin-top: 5px;
+	margin-left: 5px;
+	padding: 10px 15px 10px 25px;
+	height: 35px;
+	line-height: 35px;
+	border: 1px solid #7869e6;
+	border-radius: 5px;
+	color: #7869e6;
+	font-size: 14px;
+	font-weight: bold;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-size: 10px 15px;
+	cursor: pointer;
+}

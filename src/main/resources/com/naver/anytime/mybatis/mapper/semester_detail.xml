@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.naver.anytime.mybatis.mapper.Semester_detailMapper">
+
+	<insert id="insert" parameterType="semester_detail">
+
+		insert into semester_detail
+		values
+		(semester_detail_seq.NEXTVAL, #{semester_id}, #{subject},
+		#{credit}, #{grade}, #{major})
+
+	</insert>
+
+	<update id="update" parameterType="semester_detail">
+		update semester_detail
+		set
+		subject = #{subject},
+		credit = #{credit},
+		grade = #{grade},
+		major =
+		#{major}
+		where semester_detail_id =#{semester_detail_id}
+	</update>
+
+	<select id="getSemesterDetailsBySemesterId" parameterType="int"
+		resultType="semester_detail">
+		SELECT * FROM semester_detail WHERE semester_id =
+		#{semester_id}
+
+	</select>
+
+	<select id="getDetailPerSemester" resultType="semester_detail">
+		select * from
+		semester_detail WHERE semester_id = #{semester_id}
+
+	</select>
+
+	<select id="findTop5Grades" resultType="map">
+	<![CDATA[
+    SELECT * FROM (
+        SELECT sd.grade , count(*) as count
+        FROM semester_detail sd
+            JOIN semester s ON sd.semester_id = s.semester_id
+            JOIN credit c ON s.credit_id = c.credit_id
+            JOIN member m ON c.user_id = m.user_id 
+      WHERE m.user_id = #{userId} AND credit != 0 
+      GROUP BY sd.grade ORDER BY count DESC) WHERE ROWNUM <= 5
+    ]]>
+
+	</select>
+
+
+	<select id="getdetail" resultType="semester_detail">
+		select semester_detail_id
+		from semester_detail sd
+		join semester s on sd.semester_id = s.semester_id
+		where s.semester_id = #{semesterId}
+
+	</select>
+
+</mapper>

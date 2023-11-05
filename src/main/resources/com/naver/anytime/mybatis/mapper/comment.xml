@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.naver.anytime.mybatis.mapper.CommentMapper">
+
+	<select id="getCommentList" resultType="comments"
+		parameterType="int">
+		SELECT C.COMMENT_ID, C.USER_ID, C.CONTENT, C.LIKE_COUNT,
+		C.COMMENT_DATE, C.RE_LEV, C.RE_SEQ, C.RE_REF, M.NICKNAME, C.STATUS
+		FROM COMMENTS C JOIN MEMBER M
+		ON C.USER_ID = M.USER_ID
+		WHERE C.POST_ID = #{post_id}
+		ORDER BY C.RE_REF ASC,C.RE_SEQ ASC
+	</select>
+
+	<insert id="insertComment" parameterType="comments">
+		INSERT INTO COMMENTS
+		(COMMENT_ID, POST_ID, USER_ID,
+		CONTENT, LIKE_COUNT, COMMENT_DATE,
+		RE_REF, RE_LEV, RE_SEQ, REPORT_COUNT, STATUS)
+		VALUES
+		(POST_COMMENT_SEQ.NEXTVAL, #{post_id}, #{user_id},
+		#{content}, 0, SYSDATE,
+		POST_COMMENT_SEQ.NEXTVAL, #{re_lev}, #{re_seq}, 0, 1)
+	</insert>
+
+	<update id="updateDepth" parameterType="map">
+		UPDATE COMMENTS 		
+		SET RE_SEQ = RE_SEQ + 1 
+		WHERE RE_REF = #{re_ref} 								
+		AND RE_SEQ &gt; #{re_seq}
+	</update>
+	
+	<insert id="insertReplyComment" parameterType="comments">
+		INSERT INTO COMMENTS
+		(COMMENT_ID, POST_ID, USER_ID,
+		CONTENT, LIKE_COUNT, COMMENT_DATE,
+		RE_REF, RE_LEV, RE_SEQ, REPORT_COUNT, STATUS)
+		VALUES
+		(POST_COMMENT_SEQ.NEXTVAL, #{post_id}, #{user_id},
+		#{content}, 0, SYSDATE,
+		#{re_ref}, #{re_lev}+1, #{re_seq}+1, 0, 1)
+	
+	</insert>
+
+	<update id="updateComment" parameterType="comments">
+		UPDATE COMMENTS
+		SET CONTENT = #{content}
+		WHERE COMMENT_ID = #{comment_id}
+	</update>
+
+	<update id="updateCommentStatus" parameterType="int">
+		UPDATE COMMENTS
+		SET STATUS = 0
+		WHERE COMMENT_ID =${comment_id}
+	</update>
+	
+	<select id="getCommentReportCount" resultType="int">
+		select report_count
+		from comments
+		where comment_id = #{comment_id}
+	</select>
+
+</mapper>

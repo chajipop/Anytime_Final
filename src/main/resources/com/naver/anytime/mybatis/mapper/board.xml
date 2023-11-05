@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.BoardMapper">
+
+	<select id="getBoardName" resultType="board">
+		select name,content from
+		board
+		where board_id = #{board_id}
+	</select>
+
+	<select id="getBoardList" resultType="board">
+		select * from board
+		where
+		school_id = #{school_id} and status = 1
+	</select>
+
+	<select id="getBoardDetail" parameterType="int"
+		resultType="board">
+		select *
+		from board
+		where BOARD_ID = #{board_id}
+	</select>
+
+	<select id="getBoardAnonymous" resultType="int">
+		select anonymous
+		from
+		board
+		where board_id = #{board_id}
+	</select>
+
+	<select id="getBoardIds" parameterType="String" resultType="int">
+		SELECT BOARD_ID
+		FROM BOARD
+		WHERE TYPE = 1
+		AND SCHOOL_ID = ( select
+		school_id
+		from member
+		where login_id =#{member_id}
+		)
+		AND STATUS = 1
+		AND
+		NAME != '공지사항'
+	</select>
+
+	<select id="getBoardIdsByDomain" parameterType="String"
+		resultType="int">
+		SELECT BOARD_ID
+		FROM BOARD
+		WHERE TYPE = 1
+		AND SCHOOL_ID = (
+		select school_id
+		from school
+		where domain =#{school_domain}
+		)
+		AND STATUS =
+		1
+		AND NAME != '공지사항'
+	</select>
+
+	<select id="getBoardContent" resultType="String">
+		select content
+		from board
+		where board_id = #{board_id}
+	</select>
+
+	<update id="updateBoardContent" parameterType="map">
+		UPDATE board
+		SET
+		content = #{content}
+		WHERE board_id = #{board_id}
+	</update>
+
+	<select id="getBoardManager" resultType="int">
+		select count(*)
+		from
+		board
+		where board_id = ${board_id} and user_id = ${user_id}
+	</select>
+
+	<insert id="insertBoard" parameterType="Board">
+		<selectKey keyProperty="NEW_BOARD_ID" resultType="int"
+			order="AFTER">
+			SELECT BOARD_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT INTO BOARD
+		(BOARD_ID, SCHOOL_ID, USER_ID,
+		TYPE, NAME, CONTENT,
+		ANONYMOUS,
+		STATUS, PURPOSE, REJECT_REASON)
+		VALUES (BOARD_SEQ.NEXTVAL,
+		#{SCHOOL_ID},
+		#{USER_ID},
+		#{TYPE}, #{NAME}, #{CONTENT}, #{ANONYMOUS},
+		#{STATUS}, #{PURPOSE}, NULL)
+	</insert>
+
+	<delete id="deleteBoard">
+		delete from board
+		where name like '%' || #{board_name}
+		|| '%' and user_id = #{user_id}
+	</delete>
+
+	<select id="getBoardName2" resultType="int">
+		select count(*)
+		from board
+		where name = '${board_name}' and board_id = #{board_id}
+	</select>
+
+	<update id="updateBoardUserId">
+		update board
+		set user_id = #{tf_user_id_num}
+		where
+		user_id = #{am_user_id_num} and board_id = #{board_id}
+	</update>
+
+	<select id="getBoardAdminCount" resultType="int">
+		select count(*)
+		from
+		board
+		where user_id = #{user_id}
+	</select>
+
+	<!-- ===========================윤희=========================== -->
+	<select id="getBoardlist" resultType="Board"
+		parameterType="String">
+		SELECT *
+		FROM BOARD
+		WHERE USER_ID = (SELECT USER_ID
+		FROM
+		MEMBER
+		WHERE LOGIN_ID = #{login_id})
+	</select>
+
+	<select id="getBoardRequest" resultType="Board">
+		SELECT S.NAME
+		SCHOOL_NAME, B.*, M.LOGIN_ID
+		FROM BOARD B INNER JOIN SCHOOL S
+		ON
+		B.SCHOOL_ID = S.SCHOOL_ID
+		INNER JOIN MEMBER M
+		ON B.USER_ID = M.USER_ID
+		WHERE (B.STATUS != 1 AND B.STATUS !=2)
+		AND
+		(B.TYPE =2 OR B.TYPE =3)
+	</select>
+
+	<update id="updateBoardStatus" parameterType="int">
+		UPDATE BOARD
+		SET
+		STATUS = #{approvalStatus},
+		REJECT_REASON = #{rejectionreason}
+		WHERE
+		BOARD_ID = #{board_id}
+	</update>
+
+	<update id="updateApprovalStatus" parameterType="map">
+		UPDATE BOARD
+		SET
+		STATUS = #{approvalStatus},REJECT_REASON = #{rejectionReason}
+		WHERE
+		BOARD_ID = #{board_id}
+	</update>
+
+	<update id="updateBoardStatusComplete">
+		UPDATE BOARD
+		SET STATUS =
+		CASE
+		WHEN STATUS = 3 THEN 1
+		WHEN STATUS = 4 THEN 2
+		ELSE STATUS
+		END
+		WHERE STATUS IN (3, 4)
+	</update>
+
+	<select id="getBoardTotalList" resultType="board">
+		SELECT *
+		FROM ( SELECT ROWNUM RNUM, B.*
+		FROM ( SELECT B.TYPE TYPE,
+		B.NAME BOARD_NAME, B.PURPOSE PURPOSE,
+		B.BOARD_ID BOARD_ID, B.STATUS
+		STATUS,
+		M.LOGIN_ID LOGIN_ID, S.NAME SCHOOL_NAME
+		FROM BOARD B
+		INNER JOIN
+		MEMBER M ON B.USER_ID = M.USER_ID
+		INNER JOIN SCHOOL S ON B.SCHOOL_ID =
+		S.SCHOOL_ID
+		WHERE (B.STATUS = 1 OR B.STATUS = 2)
+		AND B.TYPE != 1
+		AND B.SCHOOL_ID != 1
+		) B
+		WHERE ROWNUM &lt;=
+		#{end}
+		<if test="keyword != null">
+			AND (
+			<include refid="search" />
+			)
+		</if>
+		)
+		WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+	</select>
+
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM ( SELECT *
+		FROM ( SELECT B.TYPE TYPE, B.NAME
+		BOARD_NAME, B.PURPOSE PURPOSE,
+		B.BOARD_ID BOARD_ID, B.STATUS STATUS,
+		M.LOGIN_ID LOGIN_ID, S.NAME SCHOOL_NAME
+		FROM BOARD B
+		INNER JOIN MEMBER M
+		ON B.USER_ID = M.USER_ID
+		INNER JOIN SCHOOL S ON B.SCHOOL_ID =
+		S.SCHOOL_ID
+		WHERE B.STATUS = 1 OR B.STATUS = 2
+		)
+		<if test="keyword != null">
+			WHERE
+			<include refid="search" />
+		</if>
+		)
+	</select>
+
+	<sql id="search">
+		<choose>
+			<when test="searchKey == 0">
+				SCHOOL_NAME LIKE '%' || #{keyword} || '%' OR
+				BOARD_NAME LIKE '%' || #{keyword}
+				|| '%' OR LOGIN_ID LIKE '%' ||
+				#{keyword} || '%'
+			</when>
+			<when test="searchKey == 1">
+				SCHOOL_NAME LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="searchKey == 2">
+				BOARD_NAME LIKE '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</sql>
+
+	<update id="updateBoardStatusImmediately">
+		UPDATE BOARD
+		SET STATUS = #{approvalStatus},
+		REJECT_REASON = #{rejectionreason}
+		WHERE BOARD_ID = #{board_id}
+	</update>
+
+	<select id="getBoardStatus" parameterType="int" resultType="int">
+		SELECT STATUS
+		FROM BOARD
+		WHERE BOARD_ID = #{board_id}
+	</select>
+
+	<select id="getBoardnameByBoardId" parameterType="int"
+		resultType="String">
+		SELECT NAME
+		FROM BOARD
+		WHERE BOARD_ID = #{board_id}
+	</select>
+
+	<select id="getBoardIdsBoardRequest" resultType="int">
+		SELECT BOARD_ID
+		FROM BOARD B
+		WHERE STATUS =3 OR STATUS =4
+	</select>
+
+	<select id="getRejectionReason" parameterType="int"
+		resultType="String">
+		SELECT REJECT_REASON
+		FROM BOARD
+		WHERE BOARD_ID = #{board_id}
+	</select>
+
+	<!-- ===========================윤희=========================== -->
+
+
+	<select id="getBoardAnonymous2" resultType="int">
+		select anonymous
+		from
+		board
+		where board_id = ( select board_id
+		from post
+		where post_id = #{num}
+		)
+		or board_id = ( select board_id
+		from post
+		where post_id =
+		( select
+		post_id
+		from comments
+		where comment_id = #{num}
+		)
+
+		)
+	</select>
+
+	<select id="isBoardStatusCheck" resultType="int">
+		select status
+		from
+		board
+		where board_id = #{board_id}
+	</select>
+
+	<select id="getBoardTypeCheck" resultType="int">
+		select type
+		from board
+		where board_id = #{board_id}
+	</select>
+
+</mapper>

@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+#container > div.articles > article.list {
+	padding: 16px 24px;
+	justify-content: space-between;
+	align-items:center;
+}
+
+#container>div.articles>article>a.article {
+    display: block;
+    padding: 0px;
+}
+
+/* 공감수, 댓글수, 작성일, 익/닉 여부 위치 */
+#container > div.articles > article.list div.info {
+    display: inline-flex;
+    line-height: 18px;
+}
+
+/* 댓글수 , 작성일 사이 간격 */
+#container > div.articles > article.list ul.status::after {
+    content: '';
+    display: inline-block;
+    height: 8px;
+    border-left: 1px solid #D6D6D6;
+    width: 4px;
+    margin-left: 6px;
+}
+
+/* 작성일 */
+#container > div.articles > article.list div.info time.small {
+    display: inline-block;
+    flex-shrink: 0;
+    margin-right: 4px;
+    line-height: 21px;
+    height: 18px;
+    font-size: 12px;
+    color: #a6a6a6;
+}
+
+/* 작성일, 익/닉 사이 간격 */
+#container > div.articles > article.list div.info time.small::after {
+    content: '';
+    display: inline-block;
+    height: 8px;
+    border-left: 1px solid #D6D6D6;
+    margin-left: 4px;
+}
+
+/* 익/닉 */
+#container > div.articles > article.list div.info h3.small {
+    display: inline-block;
+    height: 18px;
+    line-height: 21px;
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: 0;
+}
+
+#container > div.articles > article.list:hover {
+    background-color: #fbfbfb;
+       cursor: pointer;
+}
+
+#container > div.wrap.articles > article > a > div > div {
+	margin-left: -8px;
+}
+	
+#container>div.articles>article h2 {
+    color: #707070;
+}
+p.boardname {
+	color: #3B5A99;
+	margin-bottom: 3px;
+	font-weight: 900;
+}
+
+#container > div.wrap.articles > article.list.empty {
+    font-size: 40px;
+    text-align: center;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}

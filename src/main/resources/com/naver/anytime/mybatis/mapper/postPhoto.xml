@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.PostPhotoMapper">
+
+    <insert id="insertPhoto" parameterType="com.naver.anytime.domain.Photo">
+        INSERT INTO PHOTO(PHOTO_ID, POST_ID, PATH)
+		VALUES(photo_seq.nextval, #{POST_ID}, #{PATH})
+    </insert>
+
+	<select id="getPhotosByPostId" resultType="com.naver.anytime.domain.Photo">
+        SELECT * FROM PHOTO WHERE POST_ID = #{POST_ID}
+    </select>
+    
+    <select id="getPhotoById" resultType="com.naver.anytime.domain.Photo">
+        SELECT * FROM PHOTO WHERE PHOTO_ID=#{PHOTO_ID}
+    </select>
+
+    <delete id="deletePhoto">
+        DELETE FROM PHOTO WHERE PHOTO_ID=#{PHOTO_ID}
+    </delete>
+  
+    <select id="getPhotoByPath" resultType="com.naver.anytime.domain.Photo">
+        SELECT * FROM PHOTO WHERE PATH=#{PATH}
+    </select>
+    
+    <select id="getPhotosPostlist" resultType="com.naver.anytime.domain.Photo">
+		SELECT P.POST_ID, PH.PATH, PH.PHOTO_ID AS PHOTO_ID
+		FROM POST P
+		INNER JOIN PHOTO PH ON P.POST_ID = PH.POST_ID
+		WHERE P.BOARD_ID = #{board_id}
+		AND PH.PHOTO_ID = (
+		    SELECT MIN(PHOTO_ID) 
+		    FROM PHOTO
+		    WHERE POST_ID = P.POST_ID
+		)
+    </select>
+	
+</mapper>

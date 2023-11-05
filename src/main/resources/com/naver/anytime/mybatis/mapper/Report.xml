@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.anytime.mybatis.mapper.ReportMapper">
+	
+	<insert id="insertReport">
+		insert into report(REPORT_ID, REPORTER, REPORTED_ORIGIN, REASON, NOTE_DATE)
+		values(report_seq.nextval, #{report_user_id}, #{id}, #{reason}, sysdate)
+	</insert> <!-- id = post_id or comment_id -->
+
+	<update id="updatePostReportCount">
+		update post
+		set report_count = report_count + 1
+		where post_id = #{post_id}
+	</update>
+	
+	<update id="updateCommentReportCount">
+		update comments
+		set report_count = report_count + 1
+		where comment_id = #{comment_id}
+	</update>
+	
+	<select id="isReportCheck" resultType="int">
+		select count(*)
+		from report
+		where reported_origin = #{id} and reporter = #{report_user_id}
+	</select> <!-- id = post_id or comment_id -->
+	
+	
+	<select id ="getReportRequest" resultType="report">
+		SELECT CONTENT.*, REASON.REASON REASON, REASON.NOTE_DATE NOTE_DATE 
+		FROM( 	SELECT 
+			  	P.POST_ID POST_ID, B.NAME BOARD_NAME, P.POST_ID CONTENT_ID, 
+			  	M.LOGIN_ID LOGIN_ID, M.NICKNAME NICKNAME, P.CONTENT CONTENT,
+			  	P.SUBJECT SUBJECT, P.POST_DATE WRITE_DATE, P.LIKE_COUNT LIKE_COUNT,
+              	P.REPORT_COUNT REPORT_COUNT, P.STATUS STATUS
+    		  	FROM POST P 
+      		  	INNER JOIN MEMBER M ON P.USER_ID=M.USER_ID
+      			INNER JOIN BOARD B ON P.BOARD_ID = B.BOARD_ID
+      			INNER JOIN (SELECT DISTINCT REPORTED_ORIGIN 
+                    		FROM REPORT 
+                    		WHERE POST_R_ACTION IS NULL ) R
+      			ON P.POST_ID = R.REPORTED_ORIGIN
+      			UNION
+      			SELECT 
+      			C.POST_ID POST_ID, B.NAME BOARD_NAME, C.COMMENT_ID CONTENT_ID, 
+      			C.LOGIN_ID LOGIN_ID, C.NICKNAME NICKNAME, C.CONTENT CONTENT,
+      			NULL SUBJECT , C.COMMENT_DATE WRITE_DATE, C.LIKE_COUNT LIKE_COUNT,
+             	C.REPORT_COUNT REPORT_COUNT, C.STATUS STATUS
+      			FROM ( 	SELECT 
+      					C.* ,P.BOARD_ID , M.LOGIN_ID LOGIN_ID, M.NICKNAME NICKNAME
+             			FROM COMMENTS C 
+             			INNER JOIN MEMBER M ON C.USER_ID = M.USER_ID
+             			INNER JOIN POST P ON C.POST_ID = P.POST_ID
+             			INNER JOIN ( SELECT DISTINCT REPORTED_ORIGIN 
+                          			 FROM REPORT 
+                          			 WHERE POST_R_ACTION IS NULL ) R
+             			ON C.COMMENT_ID = R.REPORTED_ORIGIN)C
+      			INNER JOIN BOARD B
+      			ON C.BOARD_ID = B.BOARD_ID
+			) CONTENT 
+		JOIN (	SELECT * 
+				FROM (	SELECT 
+						REPORTED_ORIGIN, REASON, NOTE_DATE, CNT, 
+						DENSE_RANK() OVER (PARTITION BY REPORTED_ORIGIN ORDER BY CNT DESC, NOTE_DATE DESC) RANK 
+ 						FROM ( 	SELECT 
+ 								REPORTED_ORIGIN, REASON, MAX(NOTE_DATE) NOTE_DATE, COUNT(REASON) CNT
+    							FROM REPORT
+    							GROUP BY REPORTED_ORIGIN, REASON
+  							)
+ 					 ) 
+ 				WHERE RANK = 1
+ 			  ) REASON
+  		ON CONTENT.CONTENT_ID = REASON.REPORTED_ORIGIN
+  		<include refid="order" />
+	</select>
+	
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(*) FROM REPORT
+	</select>
+	
+	<select id="getReportTotalList" resultType="report">
+		SELECT * 
+	    FROM( SELECT ROWNUM RNUM ,T.* 
+			  FROM ( SELECT * 
+			  		 FROM (	SELECT	R.*,M.LOGIN_ID REPORTER_LOGIN_ID,
+			  				C.POST_ID POST_ID, C.BOARD_NAME BOARD_NAME, C.COMMENT_ID CONTENT_ID, 
+       						C.LOGIN_ID LOGIN_ID, C.NICKNAME NICKNAME, NULL SUBJECT ,
+       						C.CONTENT CONTENT, C.COMMENT_DATE WRITE_DATE,
+       						C.REPORT_COUNT REPORT_COUNT, C.STATUS STATUS
+            		 
+	            		 FROM REPORT R INNER JOIN ( SELECT 	C.*, P.BOARD_NAME BOARD_NAME, 
+	       													M.LOGIN_ID LOGIN_ID, M.NICKNAME NICKNAME
+	                              					FROM COMMENTS C INNER JOIN ( SELECT P.*, B.NAME BOARD_NAME 
+	                                                           				 	 FROM POST P INNER JOIN BOARD B 
+	                                                           				 	 ON P.BOARD_ID = B.BOARD_ID
+	                                                         					) P
+	                              					ON C.POST_ID = P.POST_ID
+	                              					INNER JOIN MEMBER M
+	                              					ON C.USER_ID = M.USER_ID
+	                             			 	  ) C
+	       				 ON R.REPORTED_ORIGIN = C.COMMENT_ID
+	       				 INNER JOIN MEMBER M
+	                     ON R.REPORTER =M.USER_ID 
+	      			
+	      				 UNION
+	       				 SELECT R.*,M.LOGIN_ID REPORTER_LOGIN_ID,
+	       				 		P.POST_ID POST_ID, P.BOARD_NAME BOARD_NAME, P.POST_ID CONTENT_ID, 
+	      						P.LOGIN_ID LOGIN_ID, P.NICKNAME NICKNAME, P.SUBJECT SUBJECT, P.CONTENT CONTENT, 
+	      						P.POST_DATE WRITE_DATE, P.REPORT_COUNT REPORT_COUNT, P.STATUS STATUS 
+	       				 FROM REPORT R INNER JOIN ( SELECT 	P.*, B.NAME BOARD_NAME, M.LOGIN_ID, M.NICKNAME NICKNAME
+	       				 							FROM POST P INNER JOIN BOARD B
+	       			      							ON P.BOARD_ID = B.BOARD_ID
+	       			      							INNER JOIN MEMBER M
+	       			      							ON P.USER_ID = M.USER_ID
+	       			      					  	   ) P
+	       				 ON R.REPORTED_ORIGIN = P.POST_ID 
+	       				 INNER JOIN MEMBER M
+	                     ON R.REPORTER =M.USER_ID
+                     	)
+    					<include refid="order" />
+       			  	) T
+             WHERE ROWNUM &lt;= #{end})
+    	WHERE RNUM &gt;= #{start} AND RNUM &lt;= #{end}
+     </select>
+     
+	<sql id="order">
+	  <choose>
+	    <when test="order == 1">
+	       ORDER BY NOTE_DATE DESC
+	    </when>
+	    <when test="order == 2">
+	      ORDER BY REPORT_COUNT DESC
+	    </when>
+	  </choose>
+	</sql>
+	<update id="updateReport" parameterType="map">
+		UPDATE REPORT R
+		SET POST_R_ACTION = #{content_action}
+		, USER_R_ACTION = #{user_action}
+		, ADMIN_ID = #{admin_id}
+		, ADMIN_LOGIN_ID = #{admin_login_id}
+		, ACTION_DATE = SYSDATE		
+		WHERE REPORTED_ORIGIN = #{content_id}
+	</update>
+	
+	<select id="getReportCount" resultType="report">
+		SELECT REASON, COUNT(*) COUNT_BY_REASON FROM REPORT
+		GROUP BY REASON
+	</select>
+</mapper>

@@ -1,0 +1,460 @@
+#calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(2)
+	{
+	margin-left: -48px !important;
+}
+/* 오늘 일자 배경색 */
+.fc .fc-daygrid-day.fc-day-today {
+	background-color: #eeeef7;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+.content {
+	display: flex;
+	flex: 1; /* 나머지 공간을 차지하도록 설정 */
+}
+
+.left {
+	flex: 1;
+	text-align: left !important;
+	margin-right: 20px;
+	margin-bottom: 30px;
+	border-radius: 12px;
+}
+
+.right {
+	flex: 6;
+	background-color: #ffffff;
+	margin-bottom: 30px;
+}
+
+body>div {
+	margin-top: 90px;
+	width: 90%;
+	height: 90%;
+}
+
+div#calendar2 {
+	margin-top: 27px;
+}
+
+/* today 버튼 */
+#calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(1)>button
+	{
+	width: 80px;
+	background-color: #7869e6;
+	border-radius: 12px;
+	border-color: #7869e6;
+}
+
+/* 일정등록 버튼 */
+#calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(3)>button
+	{
+	width: 165px;
+	margin-right: 20px;
+	background-color: #7869e6;
+	border-color: #ffffff;
+	border-radius: 12px;
+	background-color: #7869e6;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * ▼일정 등록 모달▼ * * * * * * * * * * * * * * * * * * * * * * * */
+button.fc-myCustomButton-button {
+	width: 100px;
+	height: 29.59px;
+}
+
+form {
+	padding: 25px 25px 20px 25px;
+	border-radius: 12px;
+	width: 500px;
+}
+
+form#calendarModal span {
+	border-bottom: 2px solid #7869E6;
+	color: #7869E6;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	font-family: NanumSquareEB;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+form>p>input {
+	padding: 8px;
+	border: 1px solid #7869E6;
+	line-height: 24px;
+	color: #292929;
+	font-size: 16px !important;
+	background-color: #F9F9F9;
+	display: block;
+	margin-bottom: 5px;
+	color: #737373;
+	font-size: 11px;
+	margin-left: 1px;
+	display: block;
+	box-sizing: border-box;
+	border-radius: 12px;
+	width: 100%;
+	height: 40px;
+}
+
+form>p>textarea {
+	padding: 8px;
+	border: 1px solid #7869E6;
+	line-height: 24px;
+	color: #292929;
+	font-size: 16px !important;
+	background-color: #F9F9F9;
+	display: block;
+	margin-bottom: 5px;
+	color: #737373;
+	font-size: 11px;
+	margin-left: 1px;
+	display: block;
+	box-sizing: border-box;
+	border-radius: 12px;
+	width: 500px;
+	height: 150px;
+	resize: none;
+}
+
+a.close {
+	display: block;
+	float: right;
+	width: 20px;
+	height: 20px;
+	background: transparent
+		url(/anytime/resources/image/common/container.modal.close.png)
+		no-repeat center center;
+	background-size: 15px 15px;
+	cursor: pointer;
+}
+
+form>input.button {
+	margin-top: 0px;
+	font-size: 12px !important;
+	width: 80px !important;
+}
+
+form.modal .button {
+	display: block !important;
+	float: right !important;
+	margin-left: 5px !important;
+	padding: 0 12px !important;
+	height: 30px !important;
+	line-height: 30px !important;
+	border: 0 !important;
+	border-radius: 18px !important;
+	color: #fff !important;
+	font-size: 12px !important;
+	font-weight: bold !important;
+	background-color: #7869E6 !important;
+	cursor: pointer !important;
+}
+
+#calendar_label {
+	margin-top: 25px;
+	display: block;
+	margin-bottom: 5px;
+	color: #737373;
+	font-size: 11px;
+	font-weight: bold;
+	margin-left: 2px;
+}
+
+#color {
+	width: 22% !important;
+}
+
+form input[name="calendar_description"] {
+	height: 100px;
+}
+
+#colors {
+	padding: 8px;
+	border: 1px solid #7869E6;
+	line-height: 24px;
+	display: block;
+	margin-bottom: 5px;
+	color: #737373;
+	margin-left: 1px;
+	display: block;
+	box-sizing: border-box;
+	border-radius: 12px;
+	width: 30px;
+	height: 40px;
+	margin-left: 13px;
+}
+
+#calendarModal>p:nth-child(5) {
+	display: flex;
+}
+
+#calendarModal>p:nth-child(6) {
+	display: flex;
+}
+
+#calendar_label {
+	
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * ▲일정 등록 모달▲ * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * ▼일정 보기 모달▼ * * * * * * * * * * * * * * * * * * * * * * * */
+form#calendarDetail {
+	width: 500px;
+	height: 240px;
+}
+
+form#calendarDetail span {
+	padding: 5px;
+	padding-left: 7px;
+	border-left: 20px solid #7869E6;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	font-family: NanumSquareEB;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+#calendar_detail_date {
+	padding: 5px;
+	font-size: 18px;
+}
+
+#calendar_detail_description {
+	font-size: 18px;
+}
+
+#calendar_detail_date::before {
+	color: red;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * ▲일정 보기 모달▲ * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * ▼일정 수정 모달▼ * * * * * * * * * * * * * * * * * * * * * * * */
+form#calendarUpdateModal span {
+	border-bottom: 2px solid #7869E6;
+	color: #7869E6;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	font-family: NanumSquareEB;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+#color_update {
+	width: 22% !important;
+}
+
+#calendarUpdateModal>p:nth-child(5) {
+	display: flex;
+}
+
+#calendarUpdateModal>p:nth-child(6) {
+	display: flex;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * ▲일정 수정 모달▲ * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * ▼일정▼ * * * * * * * * * * * * * * * * * * * * * * * */
+/* 일정 시간 색 */
+div.fc-event-main-frame>div {
+	color: white;
+}
+/* 일정 타이틀 색 */
+div.fc-event-title-container>div {
+	color: white;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * ▲일정▲ * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * ▼왼쪽 미니 캘린더▼ * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* 왼쪽 캘린더 툴바 버튼 숨기기 */
+#calendar2 .fc-prev-button {
+	display: none;
+}
+
+#calendar2 .fc-next-button {
+	display: none;
+}
+
+#calendar2 .fc-prevYear-button {
+	display: none;
+}
+
+#calendar2 .fc-nextYear-button {
+	display: none;
+}
+
+#calendar2 .fc-today-button {
+	display: none;
+}
+
+/* 왼쪽 캘린더 크기 조정*/
+#calendar2>div.fc-view-harness.fc-view-harness-active>div>table {
+	height: 180%;
+	position: relative;
+	top: -30px;
+}
+
+.left>.box {
+	padding: 4px;
+	width: 250px;
+}
+
+#calendar2>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+	margin-bottom: 35px;
+}
+
+/* 오늘 일자 배경색 */
+#calendar2>div.fc-view-harness.fc-view-harness-active>div>table>tbody>tr>td>div>div>div>table>tbody>tr:nth-child(4)>td.fc-day.fc-day-tue.fc-day-today.fc-daygrid-day>div
+	{
+	background-color: #d5d5ff;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * ▲왼쪽 미니 캘린더▲ * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * ▼풀 캘린더 css 수정▼ * * * * * * * * * * * * * * * * * * * * * * * */
+.fc-event {
+	border-width: 1px; /* 테두리 두께를 2px로 설정 */
+	border-style: solid; /* 테두리 스타일을 solid로 설정 */
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+	margin-bottom: 1.5em;
+}
+
+#calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(1)>div>button
+	{
+	background-color: #7869e6;
+	border: 1px solid #7869e6;
+	border-radius: 12px;
+	margin-right: 3px;
+}
+
+#calendar {
+	border: 28px solid #eeeef7;
+	border-radius: 12px;
+	background-color: #eeeef7;
+}
+
+.fc-icon {
+	color: white;
+}
+
+.fc-day {
+	background-color: white;
+}
+
+.fc-icon-x {
+	color: black;
+}
+
+.fc-theme-standard .fc-popover-header {
+	background: hsl(238.63deg 75.48% 80.73%/ 30%);
+}
+
+.fc .fc-daygrid-day-top {
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.fc-direction-ltr .fc-daygrid-more-link {
+	float: left;
+	font-size: 15px;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * ▲풀 캘린더 css 수정▲ * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * ▼ 스위치 css ▼ * * * * * * * * * * * * * * * * * * * * * * * */
+/* 스위치 스타일 */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 35px;
+	vertical-align: middle;
+	margin-right: -30px;
+}
+
+.list .switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+	display: none;
+}
+
+/* span css 강제 제거 */
+#calendarModal>p:nth-child(17)>label.switch>span {
+	border-bottom: 0px;
+	margin-top: 3px;
+}
+
+#calendarUpdateModal>p:nth-child(17)>label.switch>span {
+	border-bottom: 0px;
+	margin-top: 3px;
+}
+
+/* The slider */
+.slider {
+	margin-top: 5px;
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 20px;
+	width: 40px;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+	background-color: #ccc;
+	position: absolute;
+	background-color: #ccc;
+	position: absolute;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 13px;
+	width: 13px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .2s;
+}
+
+input:checked+.slider {
+	background-color: #7868E6;
+	margin-top: 10px;
+}
+
+input:focus+.slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+	margin-top: 10px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * ▲ 스위치 css▲ * * * * * * * * * * * * * * * * * * * * * * * */

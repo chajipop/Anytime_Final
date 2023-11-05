@@ -1,0 +1,557 @@
+form.container section div.input input[type=email][data-v-703578ac],
+	form.container section div.input input[type=password][data-v-703578ac],
+	form.container section div.input input[type=text][data-v-703578ac] {
+	display: block;
+	box-sizing: border-box;
+	margin-top: 4px;
+	padding: 8px;
+	border: 1px solid #7869e6;
+	border-radius: 12px;
+	width: 100%;
+	height: 40px;
+	line-height: 24px;
+	color: #292929;
+	font-size: 16px;
+	background-color: #f6f6ff;
+	background-repeat: no-repeat;
+	background-position: right 8px center;
+	background-size: 24px 24px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.input input[type=email][data-v-703578ac],
+		form.container section div.input input[type=password][data-v-703578ac],
+		form.container section div.input input[type=text][data-v-703578ac] {
+		border: 1px solid #7869e6;
+		color: #444444;
+		background-color: #ffffff
+	}
+}
+
+body.appwebview form.container[data-v-703578ac] {
+	padding-top: 0
+}
+
+@media only screen and (min-width: 780px) {
+	form.container[data-v-703578ac] {
+		padding-top: 80px
+	}
+}
+
+@media only screen and (max-width: 779px) {
+	form.container[data-v-703578ac] {
+		padding-top: 56px
+	}
+}
+
+form.container section[data-v-703578ac] {
+	padding: 24px
+}
+
+@media only screen and (min-width: 780px) {
+	form.container section[data-v-703578ac] {
+		box-sizing: border-box;
+		border: 1px solid #c1c1c1;
+		border-radius: 12px;
+		margin: 13px auto 25px auto;
+		width: 480px;
+		background-color: #ffffff;
+	}
+	@media ( prefers-color-scheme : dark) {
+		form.container section[data-v-703578ac] {
+			border: 1px solid #c1c1c1;
+			background: #ffffff
+		}
+	}
+}
+
+form.container section h2[data-v-703578ac] {
+	line-height: 30px;
+	color: #292929;
+	font-size: 22px;
+	font-weight: bold
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section h2[data-v-703578ac] {
+		color: #444444
+	}
+}
+
+form.container section h2[data-v-703578ac]:not(:first-of-type) {
+	margin-top: 52px
+}
+
+form.container section h2.multiple[data-v-703578ac] {
+	font-weight: normal
+}
+
+form.container section p.description[data-v-703578ac] {
+	margin-top: 8px;
+	line-height: 20px;
+	color: #737373;
+	font-size: 14px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section p.description[data-v-703578ac] {
+		color: #444444
+	}
+}
+
+form.container section p.description strong[data-v-703578ac] {
+	color: #292929
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section p.description strong[data-v-703578ac] {
+		color: #F0F0F0
+	}
+}
+
+form.container section p.description span.caution[data-v-703578ac] {
+	color: #C62917
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section p.description span.caution[data-v-703578ac] {
+		color: #E45E4F
+	}
+}
+
+form.container section div.buttons[data-v-703578ac] {
+	display: flex;
+	margin-top: 8px
+}
+
+form.container section div.buttons a[data-v-703578ac] {
+	padding: 0 12px;
+	border-radius: 12px;
+	line-height: 40px;
+	color: #737373;
+	font-size: 14px;
+	background-color: #F2F2F2;
+	cursor: pointer
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.buttons a[data-v-703578ac] {
+		color: #9A9A9A;
+		background-color: #282828
+	}
+}
+
+form.container section div.input[data-v-703578ac] {
+	margin-top: 24px
+}
+
+form.container section div.input div.label[data-v-703578ac] {
+	display: flex;
+	padding: 0 8px
+}
+
+form.container section div.input div.label label[data-v-703578ac] {
+	flex: auto;
+	line-height: 20px;
+	color: #737373;
+	font-size: 12px;
+	font-weight: bold
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.input div.label label[data-v-703578ac] {
+		color: #9A9A9A
+	}
+}
+
+form.container section div.input div.label p[data-v-703578ac] {
+	flex-shrink: 0;
+	line-height: 20px;
+	color: #A6A6A6;
+	font-size: 12px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.input div.label p[data-v-703578ac] {
+		color: #6E6E6E
+	}
+}
+
+form.container section div.input input[type=email][data-v-703578ac]:focus,
+	form.container section div.input input[type=password][data-v-703578ac]:focus,
+	form.container section div.input input[type=text][data-v-703578ac]:focus
+	{
+	background-color: #FFFFFF
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.input input[type=email][data-v-703578ac]:focus,
+		form.container section div.input input[type=password][data-v-703578ac]:focus,
+		form.container section div.input input[type=text][data-v-703578ac]:focus
+		{
+		background-color: #ffffff
+	}
+}
+
+form.container section div.input div.file[data-v-703578ac] {
+	display: flex;
+	margin-top: 4px
+}
+
+form.container section div.input div.file input[type=file][data-v-703578ac]
+	{
+	width: 0;
+	height: 0;
+	opacity: 0
+}
+
+form.container section div.input div.file a.button[data-v-703578ac] {
+	padding: 0 12px 0 44px;
+	border-radius: 12px;
+	line-height: 40px;
+	color: #FFFFFF;
+	font-size: 14px;
+	background-color: #7869e6;
+	background-image:
+		url("/images/common/icn_m_camera_background_light.png");
+	background-repeat: no-repeat;
+	background-position: left 12px center;
+	background-size: 24px 24px;
+	cursor: pointer
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.input div.file a.button[data-v-703578ac] {
+		color: #ffffff;
+		background-color: #E45E4F;
+		background-image: url("/images/common/icn_m_camera_background_dark.png")
+	}
+}
+
+form.container section div.input div.file span.name[data-v-703578ac] {
+	flex: 1;
+	margin-left: 8px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #737373;
+	font-size: 12px;
+	align-self: center
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.input div.file span.name[data-v-703578ac] {
+		color: #9A9A9A
+	}
+}
+
+form.container section div.agreement[data-v-703578ac] {
+	margin-top: 16px
+}
+
+form.container section div.agreement label[data-v-703578ac] {
+	display: flex;
+	align-items: center;
+	height: 40px;
+	cursor: pointer
+}
+
+form.container section div.agreement label input[type=checkbox][data-v-703578ac]
+	{
+	display: none
+}
+
+form.container section div.agreement label input[type=checkbox]:checked
+	 ~figure.checkbox[data-v-703578ac] {
+	background-image:
+		url("/images/pages/auth/agreement.checkbox.checked.light.png")
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement label input[type=checkbox]:checked
+		 ~figure.checkbox[data-v-703578ac] {
+		background-image:
+			url("/images/pages/auth/agreement.checkbox.checked.dark.png")
+	}
+}
+
+form.container section div.agreement label figure.checkbox[data-v-703578ac]
+	{
+	margin-right: 8px;
+	width: 14px;
+	height: 14px;
+	background-image:
+		url("/images/pages/auth/agreement.checkbox.unchecked.light.png");
+	background-size: 14px 14px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement label figure.checkbox[data-v-703578ac]
+		{
+		background-image:
+			url("/images/pages/auth/agreement.checkbox.unchecked.dark.png")
+	}
+}
+
+form.container section div.agreement label span[data-v-703578ac] {
+	color: #292929;
+	font-size: 12px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement label span[data-v-703578ac] {
+		color: #F0F0F0
+	}
+}
+
+form.container section div.agreement div.text[data-v-703578ac] {
+	box-sizing: border-box;
+	padding: 8px;
+	border: 1px solid #EDEDED;
+	border-radius: 12px;
+	background-color: #F9F9F9
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement div.text[data-v-703578ac] {
+		border: 1px solid #313131;
+		background-color: #1F1F1F
+	}
+}
+
+form.container section div.agreement div.text.scroll[data-v-703578ac] {
+	height: 144px;
+	overflow: auto
+}
+
+form.container section div.agreement div.text[data-v-703578ac] h3 {
+	line-height: 18px;
+	color: #737373;
+	font-size: 12px;
+	font-weight: bold
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement div.text[data-v-703578ac] h3 {
+		color: #9A9A9A
+	}
+}
+
+form.container section div.agreement div.text[data-v-703578ac] h3:not(:first-of-type)
+	{
+	margin-top: 16px
+}
+
+form.container section div.agreement div.text[data-v-703578ac] h4 {
+	margin-top: 4px;
+	line-height: 18px;
+	color: #737373;
+	font-size: 12px;
+	font-weight: bold
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement div.text[data-v-703578ac] h4 {
+		color: #9A9A9A
+	}
+}
+
+form.container section div.agreement div.text[data-v-703578ac] p {
+	margin-top: 4px;
+	line-height: 18px;
+	color: #737373;
+	font-size: 12px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement div.text[data-v-703578ac] p {
+		color: #9A9A9A
+	}
+}
+
+form.container section div.agreement div.text[data-v-703578ac] ol {
+	margin-top: 4px;
+	padding-left: 12px
+}
+
+form.container section div.agreement div.text[data-v-703578ac] ol li {
+	list-style-type: decimal;
+	line-height: 18px;
+	color: #737373;
+	font-size: 12px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement div.text[data-v-703578ac] ol li {
+		color: #9A9A9A
+	}
+}
+
+form.container section div.agreement div.text[data-v-703578ac] ol ol {
+	margin-top: 0;
+	padding-left: 12px
+}
+
+form.container section div.agreement div.text[data-v-703578ac] ol ol li
+	{
+	list-style-type: disc
+}
+
+form.container section div.agreement div.text[data-v-703578ac] ol ol ol li
+	{
+	list-style-type: circle
+}
+
+form.container section div.agreement div.text[data-v-703578ac] ul {
+	padding-left: 12px
+}
+
+form.container section div.agreement div.text[data-v-703578ac] ul li {
+	list-style-type: disc;
+	line-height: 18px;
+	color: #737373;
+	font-size: 12px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section div.agreement div.text[data-v-703578ac] ul li {
+		color: #9A9A9A
+	}
+}
+
+form.container section img.idcard[data-v-703578ac] {
+	margin-top: 8px;
+	width: 100%;
+	max-width: 327px;
+	height: auto
+}
+
+form.container section input[type=submit][data-v-703578ac] {
+	margin-top: 24px;
+	border: 0;
+	border-radius: 12px;
+	width: 100%;
+	height: 40px;
+	color: #FFFFFF;
+	font-size: 16px;
+	font-weight: bold;
+	background-color: #7869e6
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section input[type=submit][data-v-703578ac] {
+		color: #ffffff;
+		background-color: #7869e6
+	}
+}
+
+div.progress[data-v-703578ac] {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 110;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5)
+}
+
+div.progress div[data-v-703578ac] {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	box-sizing: border-box;
+	margin: 24px;
+	padding: 48px;
+	border-radius: 18px;
+	max-width: 360px;
+	background-color: #FFFFFF
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.progress div[data-v-703578ac] {
+		background-color: #111111
+	}
+}
+
+div.progress div figure.loading[data-v-703578ac] {
+	margin-bottom: 16px;
+	width: 48px;
+	height: 48px;
+	background-image: url("/images/common/loading.light.svg");
+	background-size: cover
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.progress div figure.loading[data-v-703578ac] {
+		background-image: url("/images/common/loading.dark.svg")
+	}
+}
+
+div.progress div p[data-v-703578ac] {
+	line-height: 20px;
+	color: #444444;
+	font-size: 14px;
+	text-align: center
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.progress div p[data-v-703578ac] {
+		color: #C2C2C2
+	}
+}
+
+form.container section ol.description[data-v-703578ac], form.container section ul.description[data-v-703578ac]
+	{
+	margin-top: 8px;
+	padding-left: 16px
+}
+
+form.container section ol.description li[data-v-703578ac], form.container section ul.description li[data-v-703578ac]
+	{
+	line-height: 20px;
+	color: #7e7e7e;
+	font-size: 14px
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section ol.description li[data-v-703578ac], form.container section ul.description li[data-v-703578ac]
+		{
+		color: #444444
+	}
+}
+
+form.container section ol.description li strong[data-v-703578ac], form.container section ul.description li strong[data-v-703578ac]
+	{
+	color: #292929
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section ol.description li strong[data-v-703578ac], form.container section ul.description li strong[data-v-703578ac]
+		{
+		color: #F0F0F0
+	}
+}
+
+form.container section ol.description li[data-v-703578ac] a, form.container section ul.description li[data-v-703578ac] a
+	{
+	color: #0CA5AF;
+	text-decoration: underline
+}
+
+@media ( prefers-color-scheme : dark) {
+	form.container section ol.description li[data-v-703578ac] a, form.container section ul.description li[data-v-703578ac] a
+		{
+		color: #199198
+	}
+}
+
+form.container section ol.description[data-v-703578ac] {
+	list-style-type: decimal
+}
+
+form.container section ul.description[data-v-703578ac] {
+	list-style-type: disc
+}

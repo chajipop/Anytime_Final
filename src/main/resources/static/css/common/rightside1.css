@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+#searchArticleForm{
+	display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 4vh;
+    background: transparent url(../../image/common/container.articles.pagination.search.png) no-repeat right 10px center;
+    background-size: 15px 15px;
+    background-position-x: 290px;
+    border: 2px solid #d6d6d6;
+    margin-bottom: 4px !important;
+}
+
+#container > div.rightside > div.rightside2{
+	margin-bottom: 5px;
+    margin-top: -15px;
+	padding: 0px;
+}
+
+.rightside2{
+	border: 1px solid #d6d6d6;
+}
+
+#searchArticleForm > input[type=text]{
+	height: 40px;
+    line-height: 36px;
+    border: 0;
+    width: 280px;
+    color: #292929;
+    font-size: 16px;
+    background-color: transparent;
+    text-indent: 13px;
+    outline: none;
+}
+
+#searchArticleForm > select{
+	text-align: center;
+	float: left;
+    margin-right: 5px;
+    height: 40px;
+    line-height: 19px;
+    border: 0;
+    color: #737373;
+    font-size: 15px;
+    background-color: transparent;
+}
+ 
+#searchButton{
+	width: 35px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#container>div.rightside {
+	margin-top: -40px;
+}

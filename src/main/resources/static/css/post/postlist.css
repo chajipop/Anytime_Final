@@ -1,0 +1,160 @@
+#writeArticleButton>img { /* 글쓰기 버튼 */
+	justify-content: flex-end;
+	width: 23px;
+	height: 23px;
+	margin-left: 592px; /* 이미지를 텍스트 옆에 붙이기 위해 좌측 마진을 설정합니다. */
+	margin-bottom: 3px;
+}
+
+/*-----------------------------------------------------------  페이지네이션 밑 작업 ----------------------------------------------------------- */
+.center-block {
+	text-align: center;
+	margin: 20px auto;
+}
+
+.pagination {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+}
+
+.pagination li {
+	display: inline;
+	margin: 0 2px;
+}
+
+.pagination li a.active {
+	padding: 8px 16px;
+	text-decoration: none;
+	color: #7869e6;
+	font-weight: bold;
+}
+
+.pagination li a, .pagination li span {
+	padding: 8px 16px;
+	text-decoration: none;
+	color: #111111;
+	font-size: 15px;
+}
+
+.pagination li.active a {
+	color: #7869e6;
+    border-bottom: 3px solid #7869e6;
+    font-size: 15px;
+    padding: 15px;
+    padding-bottom: 6px;
+    font-weight: bold;
+}
+
+.pagination li.gray a, .pagination li.gray span {
+	background-color: #ddd;
+	color: #888;
+	cursor: default;
+}
+/*-----------------------------------------------------------  페이지네이션 이전 , 다음 버튼 ----------------------------------------------------------- */
+#container>div.wrap.articles>div>ul>li:nth-child(1)>a {
+	/* 선택자는 추후에 변경 */
+	border: 1px solid #fff0;
+	background-image:
+		url(/anytime/resources/image/post/container.articles.pagination.before.png);
+	background-position: right 1px center;
+	margin-top: 5px;
+	margin-left: 5px;
+	padding: px 10px px 25px;
+	height: 35px;
+	line-height: 35px;
+	border: 1px solid #7869e6;
+	border-radius: 5px;
+	color: #7869e6;
+	font-size: 14px;
+	font-weight: bold;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-size: 10px 15px;
+	cursor: pointer;
+}
+
+#container>div.wrap.articles>div>ul>li:last-child>a {
+	/* 선택자는 추후에 변경 */
+	border: 1px solid #fff0;
+	background-image:
+		url(/anytime/resources/image/post/container.articles.pagination.next.png);
+	background-position: left 50px center !important;
+	margin-top: 5px;
+	margin-left: 5px;
+	padding: px 10px px 25px;
+	height: 35px;
+	line-height: 35px;
+	border: 1px solid #7869e6;
+	border-radius: 5px;
+	color: #7869e6;
+	font-size: 14px;
+	font-weight: bold;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-size: 10px 15px;
+	cursor: pointer;
+}
+
+.pagination .page-link.active { /* 액티브된 페이지 밑줄 강조표시 코드에 따라 추후에 세부 변경 */
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/*-----------------------------------------------------------  불러올 글 내용 없을때 ----------------------------------------------------------- */
+.empty_postlist{
+    font-size: 40px;
+    text-align: center;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+
+}
+.empty_postlist p{
+	font-size: 40px;
+	animation: slide 5s linear infinite;
+}
+/*----------------------------------------------------------- 게시글 리스트 보드이름  ----------------------------------------------------------- */
+#container > div.wrap.title > h1{
+	color: #292929;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#container > div.wrap.articles > article > div:nth-child(2){
+	font-size: 12px;
+}
+
+/*----------------------------------------------------------- 게시글 리스트 호버색상  ----------------------------------------------------------- */
+#container > div.wrap.articles > article > a[href]:hover {
+	background-color: #fbfbfb;
+}
+
+/*----------------------------------------------------------- 게시글 리스트 썸네일  ----------------------------------------------------------- */
+#writeBoardContainer > article > a > div > img {
+	float: right;
+	margin: -1px -5px -5px 15px;
+	width: 80px;
+	height: 80px;
+	background-size: cover;
+	background-position: top center;
+}
+/*----------------------------------------------------------- 모달 테두리 강조  ----------------------------------------------------------- */
+
+#transferMoimForm > p > input:focus {
+  border: 2px solid black !important;
+}
+
+#manageMoimForm > p > input:focus {
+  border: 2px solid black !important;
+}
+
+#deleteCheckForm > p > input[name="TruedeleteCheck"]:focus {
+  border: 2px solid black !important;
+}
